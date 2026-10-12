@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email_verified == true &&
+        (request.auth.token.email == 'joshi.namburu4339@gmail.com' ||
+         request.auth.token.email == 'vexloraindia@gmail.com');
+    }
+
+    function isValidSurveyResponse(data) {
+      return data.keys().hasAll([
+        'id', 'userId', 'userEmail', 'respondentName', 'biggestFrustration',
+        'desiredSolution', 'emailSentTo', 'emailStatus'
+      ]) &&
+      data.id is string && data.id.size() <= 128 &&
+      data.userId is string && data.userId == request.auth.uid &&
+      data.userEmail is string && data.userEmail.size() <= 150 &&
+      data.respondentName is string && data.respondentName.size() <= 100 &&
+      (!('respondentRole' in data) || (data.respondentRole is string && data.respondentRole.size() <= 80)) &&
+      (!('primaryDevice' in data) || (data.primaryDevice is string && data.primaryDevice.size() <= 60)) &&
+      (!('painPoints' in data) || (data.painPoints is list && data.painPoints.size() <= 20)) &&
+      data.biggestFrustration is string && data.biggestFrustration.size() <= 2000 &&
+      (!('painLevel' in data) || (data.painLevel is number && data.painLevel >= 1 && data.painLevel <= 5)) &&
+      data.desiredSolution is string && data.desiredSolution.size() <= 2000 &&
+      (!('mustHaveFeatures' in data) || (data.mustHaveFeatures is list && data.mustHaveFeatures.size() <= 20)) &&
+      (!('killerFeature' in data) || (data.killerFeature is string && data.killerFeature.size() <= 2000)) &&
+      (!('wantsBetaAccess' in data) || (data.wantsBetaAccess is bool)) &&
+      (!('additionalNotes' in data) || (data.additionalNotes is string && data.additionalNotes.size() <= 2000)) &&
+      data.emailSentTo is string && data.emailSentTo.size() <= 150 &&
+      data.emailStatus in ['sent', 'pending', 'failed', 'draft'];
+    }
+
+    // Surveys collection
+    match /surveys/{surveyId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+        isValidId(surveyId) &&
+        isValidSurveyResponse(incoming()) &&
+        incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() &&
+        isValidId(surveyId) &&
+        isValidSurveyResponse(incoming()) &&
+        (resource.data.userId == request.auth.uid || isAdmin()) &&
+        incoming().userId == existing().userId;
+      allow delete: if isSignedIn() &&
+        isValidId(surveyId) &&
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // Connection testing doc
+    match /test/{docId} {
+      allow read: if isSignedIn();
+    }
+  }
+}

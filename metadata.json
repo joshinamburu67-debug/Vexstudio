@@ -1,0 +1,6 @@
+{
+  "name": "Vexlora Survey & Feedback Hub",
+  "description": "Interactive survey and feedback collection platform to identify user challenges and gather feature suggestions, with Firestore persistence and email notifications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

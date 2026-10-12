@@ -1,0 +1,111 @@
+{
+  "entities": {
+    "SurveyResponse": {
+      "title": "SurveyResponse",
+      "description": "A survey response containing user problems, app/website suggestions, and feedback submitted to vexloraindia@gmail.com",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of the response document"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Firebase UID of the respondent"
+        },
+        "userEmail": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the respondent"
+        },
+        "respondentName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Name or handle of the respondent"
+        },
+        "respondentRole": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "User background or role"
+        },
+        "primaryDevice": {
+          "type": "string",
+          "maxLength": 40,
+          "description": "Main device or OS used"
+        },
+        "painPoints": {
+          "type": "array",
+          "description": "List of core friction points faced in daily apps/websites"
+        },
+        "biggestFrustration": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Detailed explanation of frustrating workflow or problem"
+        },
+        "painLevel": {
+          "type": "number",
+          "description": "Rating from 1 to 5 of overall software frustration"
+        },
+        "desiredSolution": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Type of app or website that would solve the problem"
+        },
+        "mustHaveFeatures": {
+          "type": "array",
+          "description": "Key features requested"
+        },
+        "killerFeature": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "The single most important feature or improvement requested"
+        },
+        "wantsBetaAccess": {
+          "type": "boolean",
+          "description": "Whether the user opted in for early beta testing"
+        },
+        "additionalNotes": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Extra comments or contact details"
+        },
+        "emailSentTo": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Target email recipient (vexloraindia@gmail.com)"
+        },
+        "emailStatus": {
+          "type": "string",
+          "enum": ["sent", "pending", "failed", "draft"],
+          "description": "Status of email delivery via Gmail API"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Update timestamp"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "userEmail",
+        "respondentName",
+        "biggestFrustration",
+        "desiredSolution",
+        "emailSentTo",
+        "emailStatus"
+      ]
+    }
+  },
+  "firestore": {
+    "/surveys/{surveyId}": {
+      "schema": {
+        "$ref": "#/entities/SurveyResponse"
+      },
+      "description": "Collection of survey responses submitted by users"
+    }
+  }
+}
