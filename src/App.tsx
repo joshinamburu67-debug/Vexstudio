@@ -11,7 +11,6 @@ import { Header } from './components/Header';
 import { SurveyForm } from './components/SurveyForm';
 import { ResponsesDashboard } from './components/ResponsesDashboard';
 import { AboutSection } from './components/AboutModal';
-import { EmailConfirmModal } from './components/EmailConfirmModal';
 import { SubmissionSuccessModal } from './components/SubmissionSuccessModal';
 import { SurveyFormData, SurveyResponse } from './types/survey';
 import {
@@ -34,9 +33,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'survey' | 'analytics' | 'about'>('survey');
   const [responses, setResponses] = useState<SurveyResponse[]>([]);
   
-  // Modals & submission state
-  const [pendingSurvey, setPendingSurvey] = useState<SurveyResponse | null>(null);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  // Submission state
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -280,7 +277,7 @@ export default function App() {
             user={user}
             onSignIn={handleSignIn}
             onSubmitSurvey={handleStartSubmit}
-            isSubmitting={isConfirmModalOpen}
+            isSubmitting={isSendingEmail}
           />
         )}
 
@@ -298,16 +295,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Email Confirmation Modal (Google Workspace destructive operation dialog) */}
-      <EmailConfirmModal
-        isOpen={isConfirmModalOpen}
-        onClose={() => setIsConfirmModalOpen(false)}
-        onConfirmSendGmail={handleConfirmSendGmail}
-        onSaveFirestoreOnly={handleSaveFirestoreOnly}
-        isSending={isSendingEmail}
-        surveyData={pendingSurvey}
-        senderEmail={user?.email || ''}
-      />
+
 
       {/* Submission Success Modal with Confetti */}
       <SubmissionSuccessModal
