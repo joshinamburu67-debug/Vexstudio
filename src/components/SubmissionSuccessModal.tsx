@@ -71,21 +71,11 @@ export const SubmissionSuccessModal: React.FC<Props> = ({
           <div className="flex items-center justify-between border-t border-slate-200/60 pt-2.5">
             <span className="flex items-center gap-2 text-slate-700 font-medium">
               <Mail className="w-4 h-4 text-indigo-500" />
-              Delivered to {TARGET_SURVEY_EMAIL}
+              Team Notification
             </span>
-            {emailStatus === 'sent' ? (
-              <span className="bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-                Sent via Gmail API
-              </span>
-            ) : emailStatus === 'failed' ? (
-              <span className="bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full">
-                Saved (Email Failed)
-              </span>
-            ) : (
-              <span className="bg-slate-200 text-slate-700 font-semibold px-2 py-0.5 rounded-full">
-                Saved to DB Only
-              </span>
-            )}
+            <span className="bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+              Recorded for {TARGET_SURVEY_EMAIL}
+            </span>
           </div>
 
           {emailError && (

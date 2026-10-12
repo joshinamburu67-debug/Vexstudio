@@ -22,9 +22,8 @@ const app = initializeApp(firebaseConfig);
 export const db: Firestore = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
 
-// Google Auth Provider configured with Workspace Gmail Scope
+// Google Auth Provider (Standard public Google Sign-In)
 const provider = new GoogleAuthProvider();
-provider.addScope('https://www.googleapis.com/auth/gmail.send');
 provider.setCustomParameters({
   prompt: 'select_account'
 });

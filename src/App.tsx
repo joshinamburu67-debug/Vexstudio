@@ -135,7 +135,7 @@ export default function App() {
   };
 
   // Triggered when user completes the Survey Form
-  const handleStartSubmit = (formData: SurveyFormData) => {
+  const handleStartSubmit = async (formData: SurveyFormData) => {
     if (!user) {
       handleSignIn();
       return;
@@ -163,90 +163,25 @@ export default function App() {
       updatedAt: new Date().toISOString()
     };
 
-    setPendingSurvey(newSurvey);
-    setIsConfirmModalOpen(true);
-  };
-
-  // User confirmed sending via Gmail in the confirmation modal
-  const handleConfirmSendGmail = async () => {
-    if (!pendingSurvey || !user) return;
-
     setIsSendingEmail(true);
-    let finalStatus: 'sent' | 'failed' | 'pending' = 'pending';
-    let emailErrMsg: string | undefined = undefined;
-
     try {
-      // 1. First save to Firestore
-      await saveSurveyResponse(pendingSurvey);
-
-      // 2. Fetch or reuse OAuth Access Token for Gmail API
-      let token = accessToken;
-      if (!token) {
-        token = await getAccessToken();
-      }
-
-      // If token still not cached in memory, prompt sign in to refresh token
-      if (!token) {
-        const signinRes = await googleSignIn();
-        token = signinRes?.accessToken || null;
-      }
-
-      if (token && user.email) {
-        const emailResult = await sendSurveyEmailViaGmail(
-          token,
-          pendingSurvey,
-          user.email,
-          TARGET_SURVEY_EMAIL
-        );
-
-        if (emailResult.success) {
-          finalStatus = 'sent';
-          await updateSurveyEmailStatus(pendingSurvey.id, 'sent');
-        } else {
-          finalStatus = 'failed';
-          emailErrMsg = emailResult.error || 'Failed to dispatch email';
-          await updateSurveyEmailStatus(pendingSurvey.id, 'failed');
-        }
-      } else {
-        finalStatus = 'pending';
-        emailErrMsg = 'Could not acquire Gmail token. Saved to database.';
-      }
-    } catch (err: any) {
-      console.error('Error during survey submission:', err);
-      finalStatus = 'failed';
-      emailErrMsg = err.message || 'Error occurred';
-    } finally {
-      setIsSendingEmail(false);
-      setIsConfirmModalOpen(false);
-
-      setLastSubmissionName(pendingSurvey.respondentName);
-      setLastEmailStatus(finalStatus);
-      setLastEmailError(emailErrMsg);
-      setIsSuccessModalOpen(true);
-      setPendingSurvey(null);
-    }
-  };
-
-  // User chose to save to database only without sending email
-  const handleSaveFirestoreOnly = async () => {
-    if (!pendingSurvey) return;
-    try {
-      await saveSurveyResponse({
-        ...pendingSurvey,
-        emailStatus: 'draft'
-      });
-      setIsConfirmModalOpen(false);
-      setLastSubmissionName(pendingSurvey.respondentName);
+      await saveSurveyResponse(newSurvey);
+      setLastSubmissionName(newSurvey.respondentName);
       setLastEmailStatus('draft');
       setLastEmailError(undefined);
       setIsSuccessModalOpen(true);
-      setPendingSurvey(null);
+      setToastMessage({
+        type: 'success',
+        text: 'Thank you! Your feedback has been submitted successfully.'
+      });
     } catch (err: any) {
       console.error('Firestore save error:', err);
       setToastMessage({
         type: 'error',
         text: 'Failed to save to Firestore: ' + (err.message || 'Unknown error')
       });
+    } finally {
+      setIsSendingEmail(false);
     }
   };
 
