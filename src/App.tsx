@@ -13,6 +13,7 @@ import { ResponsesDashboard } from './components/ResponsesDashboard';
 import { AboutSection } from './components/AboutModal';
 import { SubmissionSuccessModal } from './components/SubmissionSuccessModal';
 import { LoginPage } from './components/LoginPage';
+import { EyesIntro } from './components/EyesIntro';
 import { SurveyFormData, SurveyResponse } from './types/survey';
 import {
   saveSurveyResponse,
@@ -32,6 +33,7 @@ const ADMIN_EMAILS = [
 ];
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -248,8 +250,8 @@ export default function App() {
     }
   };
 
-  // 1. Initial Auth Loading Splash
-  if (isAuthLoading) {
+  // 1. Initial Auth Loading Splash (only if intro has finished and auth is still pending)
+  if (isAuthLoading && !showIntro) {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-xl shadow-indigo-500/20 animate-pulse">
@@ -267,6 +269,7 @@ export default function App() {
   if (!user) {
     return (
       <>
+        {showIntro && <EyesIntro onComplete={() => setShowIntro(false)} />}
         {toastMessage && (
           <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-200">
             <div
@@ -291,13 +294,18 @@ export default function App() {
             </div>
           </div>
         )}
-        <LoginPage onSignIn={handleSignIn} isSigningIn={isSigningIn} />
+        <LoginPage
+          onSignIn={handleSignIn}
+          isSigningIn={isSigningIn}
+          onReplayIntro={() => setShowIntro(true)}
+        />
       </>
     );
   }
 
   return (
     <div className="min-h-screen bg-slate-100/70 font-sans text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+      {showIntro && <EyesIntro onComplete={() => setShowIntro(false)} />}
       
       {/* Toast Notification */}
       {toastMessage && (

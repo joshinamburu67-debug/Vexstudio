@@ -18,9 +18,10 @@ import { TARGET_SURVEY_EMAIL } from '../services/emailAutomation';
 interface Props {
   onSignIn: () => void;
   isSigningIn?: boolean;
+  onReplayIntro?: () => void;
 }
 
-export const LoginPage: React.FC<Props> = ({ onSignIn, isSigningIn = false }) => {
+export const LoginPage: React.FC<Props> = ({ onSignIn, isSigningIn = false, onReplayIntro }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white flex flex-col justify-between selection:bg-indigo-500 selection:text-white relative overflow-hidden">
       
@@ -185,6 +186,16 @@ export const LoginPage: React.FC<Props> = ({ onSignIn, isSigningIn = false }) =>
           © {new Date().getFullYear()} Vexlora Studio. All rights reserved.
         </div>
         <div className="flex items-center gap-4">
+          {onReplayIntro && (
+            <button
+              type="button"
+              onClick={onReplayIntro}
+              className="hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer text-indigo-400 hover:text-indigo-300 font-medium"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>Watch Eyes Intro</span>
+            </button>
+          )}
           <a
             href={`mailto:${TARGET_SURVEY_EMAIL}`}
             className="hover:text-white transition-colors flex items-center gap-1"
