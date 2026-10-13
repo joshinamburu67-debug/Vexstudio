@@ -144,10 +144,10 @@ export const LoginPage: React.FC<Props> = ({
               </div>
 
               <h3 className="text-base sm:text-xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
-                Sign In to Enter Survey
+                Sign In to Share Your Problem
               </h3>
               <p className="text-xs text-[rgba(30,50,90,0.7)] mt-1 mb-4 sm:mb-5 max-w-xs leading-relaxed">
-                Connect your Google account to access the survey portal, share problem statements, and track team responses.
+                Connect your Google account to submit your problems, request real solutions, and save your time with big outputs.
               </p>
 
               {/* Google Sign In Button */}

@@ -307,11 +307,11 @@ Generated at: ${new Date().toLocaleString()}
               <BarChart3 className="w-5 h-5 text-[rgba(30,50,90,0.85)]" />
             </span>
             <h1 className="text-2xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
-              Survey Submissions &amp; Analytics
+              Problem Submissions &amp; Analytics
             </h1>
           </div>
           <p className="text-xs sm:text-sm text-[#5E6470] font-normal">
-            Real-time feedback collected from users and automatically routed to{' '}
+            Real-time user problems collected and automatically routed to{' '}
             <strong className="text-[rgba(30,50,90,0.95)] font-medium">{TARGET_SURVEY_EMAIL}</strong>
           </p>
         </div>
@@ -384,7 +384,7 @@ Generated at: ${new Date().toLocaleString()}
           <div className="text-2xl sm:text-3xl font-extrabold text-slate-900">
             {stats.avgPain} <span className="text-sm font-normal text-slate-400">/ 5</span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">Software friction index</p>
+          <p className="text-[11px] text-slate-400 mt-1">Problem severity index</p>
         </div>
 
         {/* Beta Access Interest */}
@@ -778,7 +778,7 @@ Generated at: ${new Date().toLocaleString()}
                 </h4>
 
                 <div>
-                  <span className="font-semibold text-slate-800 block mb-1">Desired App/Website:</span>
+                  <span className="font-semibold text-slate-800 block mb-1">Desired Solution &amp; Time Saver:</span>
                   <div className="p-3 bg-indigo-50/50 rounded-xl border border-indigo-100 text-slate-800 whitespace-pre-wrap">
                     {selectedItem.desiredSolution}
                   </div>

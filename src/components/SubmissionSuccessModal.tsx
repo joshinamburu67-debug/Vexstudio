@@ -52,7 +52,7 @@ export const SubmissionSuccessModal: React.FC<Props> = ({
         </h3>
         
         <p className="text-sm text-slate-600 mt-2 max-w-sm mx-auto leading-relaxed">
-          Your feedback and product suggestions have been received and recorded.
+          Your problem statement and solution request have been received and recorded.
         </p>
 
         {/* Status Indicators */}

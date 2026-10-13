@@ -26,8 +26,8 @@ export function buildSurveyEmailHtml(data: SurveyResponse): string {
     
     <!-- Header Banner -->
     <div style="background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); padding: 24px 32px; color: #ffffff;">
-      <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.5px;">📋 New Vexlora Survey Submission</h1>
-      <p style="margin: 6px 0 0 0; opacity: 0.9; font-size: 14px;">User Problems &amp; App Suggestions Feedback</p>
+      <h1 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.5px;">📋 New Vexlora Problem Submission</h1>
+      <p style="margin: 6px 0 0 0; opacity: 0.9; font-size: 14px;">User Problem Resolution &amp; Solutions Report</p>
     </div>
 
     <div style="padding: 32px;">
@@ -64,7 +64,7 @@ export function buildSurveyEmailHtml(data: SurveyResponse): string {
       <!-- Section: Problems Faced -->
       <div style="margin-bottom: 28px;">
         <h2 style="margin: 0 0 12px 0; font-size: 17px; color: #dc2626; border-bottom: 2px solid #fee2e2; padding-bottom: 6px;">
-          1. Current Friction Points &amp; Problems
+          1. Real-World Problems &amp; Bottlenecks Faced
         </h2>
 
         <div style="margin-bottom: 14px;">
@@ -82,7 +82,7 @@ export function buildSurveyEmailHtml(data: SurveyResponse): string {
         </div>
 
         <div>
-          <strong style="font-size: 14px; color: #475569;">Biggest Daily Frustration / Tool Breakdown:</strong>
+          <strong style="font-size: 14px; color: #475569;">Single Biggest Problem Wasting Time / Causing Frustration:</strong>
           <div style="margin-top: 6px; padding: 14px; background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 4px; font-size: 14px; color: #1f2937; white-space: pre-wrap;">${data.biggestFrustration}</div>
         </div>
       </div>
@@ -90,11 +90,11 @@ export function buildSurveyEmailHtml(data: SurveyResponse): string {
       <!-- Section: Solutions & Suggestions -->
       <div style="margin-bottom: 28px;">
         <h2 style="margin: 0 0 12px 0; font-size: 17px; color: #4f46e5; border-bottom: 2px solid #e0e7ff; padding-bottom: 6px;">
-          2. Suggested App / Website Solutions
+          2. Proposed Solutions &amp; Time-Saving Ideas
         </h2>
 
         <div style="margin-bottom: 14px;">
-          <strong style="font-size: 14px; color: #475569;">What kind of app/website would make their life 10x easier:</strong>
+          <strong style="font-size: 14px; color: #475569;">Solution that would make life/work 10x easier &amp; save time:</strong>
           <div style="margin-top: 6px; padding: 14px; background: #eef2ff; border-left: 4px solid #6366f1; border-radius: 4px; font-size: 14px; color: #1e1b4b; white-space: pre-wrap;">${data.desiredSolution}</div>
         </div>
 

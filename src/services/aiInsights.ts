@@ -47,7 +47,7 @@ export async function generateFeedbackInsights(
         wantsBeta: r.wantsBetaAccess
       }));
 
-      const prompt = `You are a Principal Product Manager analyzing user survey responses for Vexlora (a software & web product studio).
+      const prompt = `You are a Problem Solving & Product Strategy Expert analyzing problem submissions for Vexlora. The mission is: 'Tell us your problem, let us solve it. Save your time and get big outputs with real solutions.' Analyze how to best solve these real user and people problems and identify their biggest time drains:
 Analyze these ${responses.length} survey responses:
 ${JSON.stringify(simplifiedData, null, 2)}
 

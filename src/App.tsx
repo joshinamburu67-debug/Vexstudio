@@ -195,7 +195,7 @@ export default function App() {
           setLastEmailError(undefined);
           setToastMessage({
             type: 'success',
-            text: `Feedback submitted and automated email sent directly to ${TARGET_SURVEY_EMAIL}!`
+            text: `Problem submitted and automated email sent directly to ${TARGET_SURVEY_EMAIL}!`
           });
         }
       } else {

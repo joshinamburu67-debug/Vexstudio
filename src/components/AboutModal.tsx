@@ -19,11 +19,11 @@ export const AboutSection: React.FC<Props> = ({ onStartSurvey }) => {
           </span>
 
           <h1 className="text-3xl sm:text-4xl font-normal tracking-tight leading-tight text-[rgba(30,50,90,0.95)]">
-            Building software that actually solves your daily friction.
+            Solving Real Problems for Users &amp; People.
           </h1>
 
           <p className="text-sm sm:text-base text-[#5E6470] opacity-80 leading-relaxed font-normal">
-            Too many modern apps and websites are cluttered, bloated, and slow. We launched this survey to listen directly to creators, engineers, businesses, and everyday web users so we can build digital tools that feel instantaneous, clean, and genuinely useful.
+            It is not about fancy apps or websites—it is about solving real problems for people. Tell us what is wasting your time, causing headaches, or slowing you down. We design direct, impactful solutions to save your time and give you big outputs.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -31,7 +31,7 @@ export const AboutSection: React.FC<Props> = ({ onStartSurvey }) => {
               onClick={onStartSurvey}
               className="px-6 py-3 bg-[rgba(30,50,90,0.85)] hover:bg-[rgba(30,50,90,1)] active:scale-98 text-white font-normal text-xs sm:text-sm rounded-full shadow-sm transition-all cursor-pointer"
             >
-              Take the Survey Now →
+              Share Your Problem Now →
             </button>
             <a
               href={`mailto:${TARGET_SURVEY_EMAIL}`}
@@ -51,9 +51,9 @@ export const AboutSection: React.FC<Props> = ({ onStartSurvey }) => {
           <div className="w-10 h-10 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.12)] text-[rgba(30,50,90,0.9)] flex items-center justify-center font-normal text-sm">
             01
           </div>
-          <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-base">Uncover Hidden Friction</h3>
+          <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-base">Real Problems First</h3>
           <p className="text-xs text-[#5E6470] leading-relaxed font-normal">
-            We analyze the recurring pain points that waste time — clunky workflows, poor mobile responsiveness, broken offline support, and hidden paywalls.
+            We focus strictly on the daily friction, bottlenecks, and time drains that frustrate real people—cutting out unnecessary complexity and vanity features.
           </p>
         </div>
 
@@ -61,9 +61,9 @@ export const AboutSection: React.FC<Props> = ({ onStartSurvey }) => {
           <div className="w-10 h-10 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.12)] text-[rgba(30,50,90,0.9)] flex items-center justify-center font-normal text-sm">
             02
           </div>
-          <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-base">Community Co-Creation</h3>
+          <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-base">Big Outputs &amp; Time Savings</h3>
           <p className="text-xs text-[#5E6470] leading-relaxed font-normal">
-            Features are prioritized based on direct community votes, survey demand, and real problem feedback rather than guesswork.
+            Solutions are engineered to save hours of manual effort, automate tedious chores, and deliver 10x outputs for users right out of the box.
           </p>
         </div>
 
@@ -71,9 +71,9 @@ export const AboutSection: React.FC<Props> = ({ onStartSurvey }) => {
           <div className="w-10 h-10 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.12)] text-[rgba(30,50,90,0.9)] flex items-center justify-center font-normal text-sm">
             03
           </div>
-          <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-base">Zero-Spam Commitment</h3>
+          <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-base">Direct Founder Connection</h3>
           <p className="text-xs text-[#5E6470] leading-relaxed font-normal">
-            Your data is stored securely in Firebase and responses route to vexloraindia@gmail.com. We never sell your personal information.
+            Every submission routes directly to vexloraindia@gmail.com. We personally review every problem statement and reach out to build the solution for you.
           </p>
         </div>
 

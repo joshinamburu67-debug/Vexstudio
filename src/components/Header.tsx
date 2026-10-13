@@ -203,7 +203,7 @@ export const Header: React.FC<Props> = ({
           </div>
 
           <div className="text-[10px] text-[rgba(30,50,90,0.5)] shrink-0">
-            Vexlora Surveys • User Problem Discovery
+            Vexlora • Solving Real User &amp; People Problems
           </div>
         </div>
 

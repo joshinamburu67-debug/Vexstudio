@@ -34,13 +34,13 @@ export interface SurveyFormData {
 }
 
 export const ROLE_OPTIONS = [
-  'Software Developer / Engineer',
+  'Working Professional / Individual',
   'Student / Learner',
-  'Startup Founder / Entrepreneur',
-  'Product Manager / Designer',
   'Business Owner / Operations',
   'Freelancer / Consultant',
-  'Everyday App & Web User',
+  'Software Developer / Engineer',
+  'Creator / Designer',
+  'Everyday User / Daily Problem Solver',
   'Other'
 ];
 
@@ -50,30 +50,31 @@ export const DEVICE_OPTIONS = [
   'Windows PC / Laptop',
   'MacBook / macOS',
   'iPad / Android Tablet',
-  'Linux / Chromebook'
+  'Linux / Other'
 ];
 
 export const PAIN_POINT_OPTIONS = [
-  { id: 'slow_loading', label: 'Slow loading speeds & laggy UI', icon: 'zap-off' },
-  { id: 'cluttered_ui', label: 'Overly complex, confusing interface', icon: 'layout' },
-  { id: 'ads_and_popups', label: 'Intrusive advertisements & popup banners', icon: 'bell-off' },
-  { id: 'poor_mobile_design', label: 'Poor mobile responsiveness / buggy on phone', icon: 'smartphone' },
-  { id: 'expensive_paywalls', label: 'Expensive subscriptions & unexpected paywalls', icon: 'dollar-sign' },
-  { id: 'offline_unavailable', label: 'Zero offline functionality or lost unsaved work', icon: 'wifi-off' },
-  { id: 'weak_search', label: 'Bad search / hard to find what I need', icon: 'search' },
-  { id: 'data_privacy', label: 'Excessive permissions & privacy concerns', icon: 'shield-alert' },
-  { id: 'lack_of_support', label: 'No customer support or helpful guidance', icon: 'help-circle' }
+  { id: 'slow_workflows', label: 'Slow workflows & laggy systems wasting my time', icon: 'zap-off' },
+  { id: 'confusing_processes', label: 'Overly complicated processes & confusing tools', icon: 'layout' },
+  { id: 'repetitive_tasks', label: 'Repetitive manual tasks that drain hours each day', icon: 'clock' },
+  { id: 'mobile_headaches', label: 'Inconvenient or broken experience on mobile phone', icon: 'smartphone' },
+  { id: 'expensive_paywalls', label: 'Unfair prices & expensive subscription paywalls', icon: 'dollar-sign' },
+  { id: 'lost_work', label: 'Lost work, unsaved progress, or disorganization', icon: 'wifi-off' },
+  { id: 'hard_to_find', label: 'Hard to find information or organize daily tasks', icon: 'search' },
+  { id: 'privacy_concerns', label: 'Data privacy, security, and spam concerns', icon: 'shield-alert' },
+  { id: 'lack_of_support', label: 'Zero direct help or guidance when facing issues', icon: 'help-circle' }
 ];
 
 export const FEATURE_WISHLIST_OPTIONS = [
-  'Lightning-fast performance & instant load',
-  'Minimalist, distraction-free clean design',
-  'Reliable offline support & local autosave',
-  'Intelligent AI assistant / automated shortcuts',
-  'No ads, no tracking, strict privacy',
-  'Seamless cross-device sync (Mobile & Desktop)',
-  'Affordable or generous free tier',
-  'One-click sharing & collaboration',
-  'Dark mode & customizable theme',
-  'Keyboard shortcuts & power-user tools'
+  'Automates repetitive work to save hours',
+  'Clean, dead-simple process with zero learning curve',
+  'Instant speed & zero waiting around',
+  'Smart AI assistance to do the heavy lifting',
+  'Works seamlessly on mobile and desktop',
+  'Reliable offline mode & automatic saving',
+  'Direct problem-solving with no useless clutter',
+  'Affordable or open free access for everyone',
+  'Fast sharing & collaboration with team or family',
+  'Strict privacy — 100% secure personal data'
 ];
+

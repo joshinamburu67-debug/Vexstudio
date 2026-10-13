@@ -8,13 +8,13 @@ interface Props {
 }
 
 export const Navbar: React.FC<Props> = ({
-  buttonText = 'Take Survey',
+  buttonText = 'Tell Your Problem',
   onButtonClick
 }) => {
   const menuItems = [
     { label: 'Problem Statements', hasDropdown: false },
-    { label: 'Survey Features', hasDropdown: true },
-    { label: 'Feature Wishlist', hasDropdown: false },
+    { label: 'Real Solutions', hasDropdown: false },
+    { label: 'Save Your Time', hasDropdown: false },
     { label: 'Founder Direct', hasDropdown: true }
   ];
 

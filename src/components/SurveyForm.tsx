@@ -121,13 +121,13 @@ export const SurveyForm: React.FC<Props> = ({
               <span>Tell Us Your Problem • Let Us Solve It</span>
             </div>
             <h1 className="text-xl sm:text-3xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
-              App &amp; Website Improvement Survey
+              User &amp; People Problem Resolution Survey
             </h1>
           </div>
         </div>
 
         <p className="text-xs sm:text-sm text-[#5E6470] opacity-80 mt-3 sm:mt-4 leading-relaxed font-normal">
-          Tell us your problem, let us solve it. Save your time and get big outputs with real solutions. Tell us about the difficulties, bottlenecks, and bugs you encounter in everyday apps or websites, and your ideas for solutions that would truly make your life easier.
+          It is not about apps or websites—it is about solving your real problems. Tell us what is wasting your time, causing headaches, or slowing you down. We design direct, high-impact solutions to save your time and give you big outputs.
         </p>
 
         <div className="mt-3.5 sm:mt-4 pt-3.5 sm:pt-4 border-t border-white/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
@@ -177,10 +177,10 @@ export const SurveyForm: React.FC<Props> = ({
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               1
             </span>
-            About You &amp; Your Setup
+            About You &amp; Your Daily Routine
           </h2>
           <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
-            Helps us understand your work context and platforms.
+            Helps us understand your background to design the best tailored solution.
           </p>
         </div>
 
@@ -207,7 +207,7 @@ export const SurveyForm: React.FC<Props> = ({
         {/* Q2: Role */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-1.5">
-            What describes you best?
+            What describes your work or background best?
           </label>
           <select
             value={formData.respondentRole}
@@ -225,7 +225,7 @@ export const SurveyForm: React.FC<Props> = ({
         {/* Q3: Primary Device */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-2">
-            What device/OS do you use most often for web &amp; apps?
+            What primary device do you use daily?
           </label>
           <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5">
             {DEVICE_OPTIONS.map(dev => {
@@ -259,10 +259,10 @@ export const SurveyForm: React.FC<Props> = ({
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               2
             </span>
-            Problems &amp; Challenges You Are Facing
+            Real Problems &amp; Bottlenecks Slowing You Down
           </h2>
           <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
-            Tell us about the friction, bugs, or annoyances you endure in daily digital tools.
+            Tell us about the friction, wasted hours, or annoyances you face in your daily work or life.
           </p>
         </div>
 
@@ -302,7 +302,7 @@ export const SurveyForm: React.FC<Props> = ({
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)]">
-              Overall Frustration Rating
+              Overall Frustration &amp; Severity Rating
             </label>
             <span className="text-xs font-normal px-2.5 py-0.5 rounded-full bg-white/80 border border-white/50 text-[rgba(30,50,90,0.9)]">
               Level {formData.painLevel} / 5
@@ -340,18 +340,18 @@ export const SurveyForm: React.FC<Props> = ({
         {/* Q6: Detailed Frustration */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-1.5">
-            What is the single biggest problem or bottleneck in apps/websites you use?{' '}
+            What is the single biggest problem wasting your time or frustrating you?{' '}
             <span className="text-red-500">*</span>
           </label>
           <p className="text-xs text-[rgba(30,50,90,0.6)] mb-2 font-normal">
-            Give a specific example of what went wrong, which tool annoyed you, or what takes way too long.
+            Tell us what goes wrong, what takes way too long, or what gives you headaches every day.
           </p>
           <textarea
             rows={4}
             required
             value={formData.biggestFrustration}
             onChange={e => setFormData({ ...formData, biggestFrustration: e.target.value })}
-            placeholder="e.g. When trying to organize customer notes or export reports, the platform is sluggish, reloads unexpectedly, and forces me through 5 nested sub-menus..."
+            placeholder="e.g. Every day I waste 2 hours manually doing repetitive data entry and sorting requests. Existing tools are way too clunky, complex, and slow, causing delays and endless frustration..."
             className={`w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-md border text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
               errors.biggestFrustration ? 'border-red-400 bg-red-50/20' : 'border-white/60'
             }`}
@@ -369,28 +369,28 @@ export const SurveyForm: React.FC<Props> = ({
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               3
             </span>
-            Ideas &amp; What Would Make Software Truly Useful
+            Solutions &amp; Big Outputs to Save Your Time
           </h2>
           <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
-            Describe what you wish existed or what we should build for you.
+            Describe the solution that would completely eliminate this problem for you.
           </p>
         </div>
 
         {/* Q7: Desired Solution */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-1.5">
-            What kind of app or website would make your life or work 10x easier?{' '}
+            What solution would solve this problem and make your life/work 10x easier?{' '}
             <span className="text-red-500">*</span>
           </label>
           <p className="text-xs text-[rgba(30,50,90,0.6)] mb-2 font-normal">
-            How would it work? What problem would it solve immediately?
+            How should the solution work? What would save your time and give you big outputs?
           </p>
           <textarea
             rows={3}
             required
             value={formData.desiredSolution}
             onChange={e => setFormData({ ...formData, desiredSolution: e.target.value })}
-            placeholder="e.g. An ultra-minimalist project manager with zero learning curve, instant hotkeys, reliable offline syncing, and instant export..."
+            placeholder="e.g. A fast, 1-click automated solution that handles the tedious work instantly, saves me 10+ hours a week, and lets me focus on big results..."
             className={`w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-md border text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
               errors.desiredSolution ? 'border-red-400 bg-red-50/20' : 'border-white/60'
             }`}
@@ -403,7 +403,7 @@ export const SurveyForm: React.FC<Props> = ({
         {/* Q8: Must-Have Features */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-2">
-            Which features are absolute must-haves for you?{' '}
+            Which outcomes and capabilities are absolute must-haves for you?{' '}
             <span className="text-xs text-[rgba(30,50,90,0.6)]">(Click to toggle)</span>
           </label>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -431,13 +431,13 @@ export const SurveyForm: React.FC<Props> = ({
         {/* Q9: One Killer Feature */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-1.5">
-            If you could have ONE killer feature, what would it be?
+            If you could have ONE breakthrough solution or feature, what would it be?
           </label>
           <input
             type="text"
             value={formData.killerFeature}
             onChange={e => setFormData({ ...formData, killerFeature: e.target.value })}
-            placeholder="e.g. Natural language voice capture, zero-latency search, offline-first sync"
+            placeholder="e.g. One-tap automation that completely eliminates manual repetitive tasks"
             className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/80 backdrop-blur-md border border-white/60 text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)]"
           />
         </div>
@@ -450,10 +450,10 @@ export const SurveyForm: React.FC<Props> = ({
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               4
             </span>
-            Connection &amp; Beta Access
+            Direct Connection &amp; Solution Delivery
           </h2>
           <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
-            Stay in touch with Vexlora India as we create solutions from this feedback.
+            Stay in touch with Vexlora India as we build real solutions to solve your problem.
           </p>
         </div>
 
@@ -461,10 +461,10 @@ export const SurveyForm: React.FC<Props> = ({
         <div className="flex items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/70 border border-white/40">
           <div>
             <span className="font-normal text-[rgba(30,50,90,0.95)] text-sm block">
-              Would you like early beta access when we build this?
+              Would you like early access when we build the solution for your problem?
             </span>
             <span className="text-xs text-[rgba(30,50,90,0.6)] font-normal">
-              We will invite you for free early testing using your signed-in email.
+              We will personally reach out with the solution to save your time.
             </span>
           </div>
 
@@ -482,13 +482,13 @@ export const SurveyForm: React.FC<Props> = ({
         {/* Q11: Additional Notes */}
         <div>
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-1.5">
-            Any other suggestions, questions, or notes for the Vexlora team?
+            Any other details about your problem or thoughts for the Vexlora team?
           </label>
           <textarea
             rows={2}
             value={formData.additionalNotes}
             onChange={e => setFormData({ ...formData, additionalNotes: e.target.value })}
-            placeholder="Share any additional thoughts, links, or contact preferences..."
+            placeholder="Share any additional thoughts, specific roadblocks, or how we can help you best..."
             className="w-full p-3 rounded-xl bg-white/80 backdrop-blur-md border border-white/60 text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)]"
           />
         </div>
