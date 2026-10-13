@@ -6,7 +6,7 @@ interface Props {
   text?: string;
 }
 
-export const HeroBadge: React.FC<Props> = ({ text = 'Fluid Staking' }) => {
+export const HeroBadge: React.FC<Props> = ({ text = 'User Problem Discovery' }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

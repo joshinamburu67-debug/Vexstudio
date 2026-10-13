@@ -10,8 +10,8 @@ interface Props {
 }
 
 export const BottomRightCorner: React.FC<Props> = ({
-  title = 'Documentation',
-  subtitle = 'Library',
+  title = 'Survey Features',
+  subtitle = 'Problem Statements',
   onClick,
   className
 }) => {

@@ -54,14 +54,14 @@ export const Header: React.FC<Props> = ({
               <div>
                 <div className="flex items-center gap-1.5 sm:gap-2">
                   <span className="font-normal text-[rgba(30,50,90,0.95)] text-lg sm:text-xl tracking-tight">
-                    RIVR
+                    Vexlora
                   </span>
                   <span className="bg-white/70 text-[rgba(30,50,90,0.8)] text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-normal border border-white/40">
-                    Survey Hub
+                    Surveys
                   </span>
                 </div>
                 <p className="text-[11px] text-[rgba(30,50,90,0.6)] hidden sm:block font-normal">
-                  Fluid Feedback &amp; Feature Streams
+                  Problem Statements &amp; Feature Feedback
                 </p>
               </div>
             </div>
@@ -219,7 +219,7 @@ export const Header: React.FC<Props> = ({
           </div>
 
           <div className="text-[10px] text-[rgba(30,50,90,0.5)] shrink-0">
-            Fluid Asset Streams
+            Vexlora Surveys • User Problem Discovery
           </div>
         </div>
 

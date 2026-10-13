@@ -11,9 +11,9 @@ interface Props {
 }
 
 export const BottomLeftCard: React.FC<Props> = ({
-  countText = '5.2K',
-  label = 'Active Yielders',
-  buttonText = 'Join Discord',
+  countText = 'User Pain Points',
+  label = 'Problem Discovery & Needs',
+  buttonText = 'Share Problem',
   onButtonClick,
   className
 }) => {

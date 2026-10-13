@@ -32,10 +32,10 @@ export const LoginPage: React.FC<Props> = ({
     'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4';
 
   const menuItems = [
-    { label: 'Ecosystem', hasDropdown: false },
-    { label: 'Economics', hasDropdown: true },
-    { label: 'Developers', hasDropdown: false },
-    { label: 'Governance', hasDropdown: true }
+    { label: 'Problem Statements', hasDropdown: false },
+    { label: 'Survey Features', hasDropdown: true },
+    { label: 'Feature Wishlist', hasDropdown: false },
+    { label: 'Founder Direct', hasDropdown: true }
   ];
 
   return (
@@ -60,10 +60,10 @@ export const LoginPage: React.FC<Props> = ({
             {/* Left Side spacer / Brand */}
             <div className="flex-1 flex items-center gap-2 sm:gap-3">
               <span className="font-regular tracking-tighter text-xl sm:text-2xl text-[rgba(30,50,90,0.95)]">
-                RIVR
+                Vexlora
               </span>
               <span className="text-[10px] sm:text-[11px] text-[rgba(30,50,90,0.7)] px-2 sm:px-2.5 py-0.5 rounded-full bg-white/50 backdrop-blur-md border border-white/20">
-                Survey Gateway
+                Surveys Hub
               </span>
             </div>
 
@@ -72,6 +72,7 @@ export const LoginPage: React.FC<Props> = ({
               {menuItems.map(item => (
                 <li
                   key={item.label}
+                  onClick={onSignIn}
                   className="cursor-pointer hover:opacity-70 transition-opacity flex items-center gap-1 group"
                 >
                   <span>{item.label}</span>
@@ -126,7 +127,7 @@ export const LoginPage: React.FC<Props> = ({
 
           {/* Hero & Login Card Container */}
           <div className="w-full flex flex-col items-center pt-2 sm:pt-4 md:pt-8 px-4 sm:px-6 text-center max-w-4xl my-auto">
-            <HeroBadge text="Fluid Staking &amp; Feedback" />
+            <HeroBadge text="Feedback &amp; Problem Discovery" />
 
             <motion.h1
               initial={{ opacity: 0, scale: 0.98 }}
@@ -134,7 +135,7 @@ export const LoginPage: React.FC<Props> = ({
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-3xl sm:text-5xl md:text-6xl lg:text-[80px] font-normal text-[#5E6470] mb-2 tracking-tight leading-[1.08] sm:leading-[1.05]"
             >
-              Fluid Asset Streams
+              Vexlora Surveys
             </motion.h1>
 
             <motion.p
@@ -143,7 +144,7 @@ export const LoginPage: React.FC<Props> = ({
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-xs sm:text-base md:text-lg text-[#5E6470] opacity-80 leading-relaxed max-w-xl font-normal px-2"
             >
-              Access Smart Vaults, stake RIVR, NFTs, transform rigid holdings into liquid cash instantly.
+              Share your daily software frustrations, bottlenecks, and feature wishlists to help us build tools that solve real problems.
             </motion.p>
 
             {/* Sleek Glassmorphism Sign-In Box */}
@@ -161,7 +162,7 @@ export const LoginPage: React.FC<Props> = ({
                 Sign In to Enter Survey
               </h3>
               <p className="text-xs text-[rgba(30,50,90,0.7)] mt-1 mb-4 sm:mb-5 max-w-xs leading-relaxed">
-                Connect your Google account to access the survey portal, vote on features, and track responses.
+                Connect your Google account to access the survey portal, share problem statements, and track team responses.
               </p>
 
               {/* Google Sign In Button */}
@@ -182,11 +183,11 @@ export const LoginPage: React.FC<Props> = ({
 
             {/* Mobile Responsive Action Cards (Non-overlapping, below the sign-in box) */}
             <div className="flex md:hidden flex-col xs:flex-row items-stretch justify-center gap-2.5 w-full max-w-sm sm:max-w-md mt-4 sm:mt-5 z-20">
-              {/* Active Yielders Pill Card */}
+              {/* Problem Statements Card */}
               <div className="flex-1 p-3 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/40 flex items-center justify-between shadow-xs">
                 <div className="flex flex-col text-left">
-                  <span className="text-lg font-normal text-[rgba(30,50,90,0.9)] tracking-tight">5.2K</span>
-                  <span className="text-[10px] font-normal text-[rgba(30,50,90,0.6)] uppercase tracking-wider">Active Yielders</span>
+                  <span className="text-base font-normal text-[rgba(30,50,90,0.95)] tracking-tight">User Problems</span>
+                  <span className="text-[10px] font-normal text-[rgba(30,50,90,0.6)] uppercase tracking-wider">Voice Your Needs</span>
                 </div>
                 <button
                   type="button"
@@ -194,19 +195,19 @@ export const LoginPage: React.FC<Props> = ({
                   className="flex items-center bg-white rounded-full pl-2 pr-3.5 py-1.5 gap-1.5 hover:bg-white/90 text-xs text-[rgba(30,50,90,0.9)] cursor-pointer shadow-xs active:scale-95 transition-transform"
                 >
                   <ArrowUpRight className="w-3.5 h-3.5 text-[rgba(30,50,90,0.9)]" />
-                  <span className="font-normal">Join Discord</span>
+                  <span className="font-normal">Share Issue</span>
                 </button>
               </div>
 
-              {/* Documentation Pill Card */}
+              {/* Survey Features Card */}
               <div
                 onClick={onSignIn}
                 className="flex-1 p-3 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/40 flex items-center justify-between cursor-pointer shadow-xs hover:bg-white/60 active:scale-95 transition-all"
               >
                 <div className="flex flex-col text-left">
-                  <span className="text-sm font-normal text-[rgba(30,50,90,0.95)]">Documentation</span>
+                  <span className="text-sm font-normal text-[rgba(30,50,90,0.95)]">Survey Features</span>
                   <div className="flex items-center gap-1 text-[rgba(30,50,90,0.6)]">
-                    <span className="text-[11px] font-normal">Library &amp; Guides</span>
+                    <span className="text-[11px] font-normal">Direct Founder Review</span>
                     <ChevronRight className="w-3 h-3" />
                   </div>
                 </div>
@@ -221,19 +222,19 @@ export const LoginPage: React.FC<Props> = ({
           {/* Desktop Bottom Left Card (Hidden on mobile to prevent overlapping) */}
           <div className="hidden md:block">
             <BottomLeftCard
-              countText="5.2K"
-              label="Active Yielders"
-              buttonText="Join Discord"
+              countText="User Pain Points"
+              label="Problem Discovery & Needs"
+              buttonText="Share Problem"
               onButtonClick={onSignIn}
-              className="absolute md:bottom-6 md:left-6 lg:bottom-10 lg:left-10 p-3 md:p-4 lg:p-5 rounded-[1.2rem] md:rounded-[1.5rem] lg:rounded-[2.2rem] bg-white/30 backdrop-blur-xl flex flex-col gap-2 lg:gap-3 min-w-[140px] md:min-w-[150px] lg:min-w-[180px] w-fit z-20"
+              className="absolute md:bottom-6 md:left-6 lg:bottom-10 lg:left-10 p-3 md:p-4 lg:p-5 rounded-[1.2rem] md:rounded-[1.5rem] lg:rounded-[2.2rem] bg-white/30 backdrop-blur-xl flex flex-col gap-2 lg:gap-3 min-w-[150px] md:min-w-[160px] lg:min-w-[200px] w-fit z-20"
             />
           </div>
 
           {/* Desktop Bottom Right Corner Cutout (Hidden on mobile to prevent overlapping) */}
           <div className="hidden md:block">
             <BottomRightCorner
-              title="Documentation"
-              subtitle="Library"
+              title="Survey Features"
+              subtitle="Problem Statements"
               onClick={onSignIn}
               className="absolute bottom-0 right-0 p-3 pt-5 pl-8 sm:p-4 sm:pt-6 sm:pl-10 md:p-6 md:pt-8 md:pl-14 bg-[#f0f0f0] rounded-tl-[1.5rem] sm:rounded-tl-[2rem] md:rounded-tl-[3.5rem] flex items-center gap-3 sm:gap-4 md:gap-6 z-20 cursor-pointer"
             />

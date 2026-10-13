@@ -149,7 +149,7 @@ export const SurveyForm: React.FC<Props> = ({
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-normal bg-white/70 text-[rgba(30,50,90,0.9)] mb-2 border border-white/40">
               <Sparkles className="w-3.5 h-3.5 text-[rgba(30,50,90,0.85)]" />
-              <span>Fluid Feedback Streams</span>
+              <span>Vexlora Feedback Streams</span>
             </div>
             <h1 className="text-xl sm:text-3xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
               App &amp; Website Improvement Survey
