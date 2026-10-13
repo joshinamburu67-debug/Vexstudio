@@ -297,22 +297,22 @@ Generated at: ${new Date().toLocaleString()}
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 pb-20">
+    <div className="max-w-6xl mx-auto space-y-8 pb-20 font-helvetica select-none">
       
       {/* Dashboard Header */}
-      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-xs border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.8rem] md:rounded-[2.5rem] p-6 sm:p-8 shadow-xs border border-white/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg">
-              <BarChart3 className="w-5 h-5" />
+            <span className="p-2 bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.12)] text-[rgba(30,50,90,0.9)] rounded-full">
+              <BarChart3 className="w-5 h-5 text-[rgba(30,50,90,0.85)]" />
             </span>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
               Survey Submissions &amp; Analytics
             </h1>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500">
+          <p className="text-xs sm:text-sm text-[#5E6470] font-normal">
             Real-time feedback collected from users and automatically routed to{' '}
-            <strong className="text-slate-800 font-semibold">{TARGET_SURVEY_EMAIL}</strong>
+            <strong className="text-[rgba(30,50,90,0.95)] font-medium">{TARGET_SURVEY_EMAIL}</strong>
           </p>
         </div>
 
@@ -321,10 +321,10 @@ Generated at: ${new Date().toLocaleString()}
             <button
               type="button"
               onClick={() => setIsSettingsModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl transition-all shadow-2xs cursor-pointer"
+              className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-normal text-[rgba(30,50,90,0.9)] bg-white/80 border border-white/50 hover:bg-white rounded-full transition-all shadow-xs cursor-pointer"
               title="Configure native vexloraindia@gmail.com sender"
             >
-              <Settings className="w-4 h-4 text-slate-500" />
+              <Settings className="w-4 h-4 text-[rgba(30,50,90,0.7)]" />
               <span>Email Settings</span>
             </button>
           )}
@@ -333,7 +333,7 @@ Generated at: ${new Date().toLocaleString()}
             type="button"
             onClick={handleGenerateInsights}
             disabled={responses.length === 0 || isAnalyzing}
-            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 active:scale-98 rounded-xl transition-all shadow-md shadow-indigo-100 disabled:opacity-50 cursor-pointer"
+            className="flex items-center gap-2 px-5 py-2.5 text-xs font-normal text-white bg-[rgba(30,50,90,0.85)] hover:bg-[rgba(30,50,90,1)] active:scale-98 rounded-full transition-all shadow-sm disabled:opacity-50 cursor-pointer"
           >
             {isAnalyzing ? (
               <>

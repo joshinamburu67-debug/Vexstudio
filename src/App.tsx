@@ -319,7 +319,7 @@ export default function App() {
         isActive={isMobilePreview}
         onToggle={() => setIsMobilePreview(prev => !prev)}
       >
-        <div className="min-h-screen bg-slate-100/70 font-sans text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+        <div className="min-h-screen bg-[#f0f0f0] font-helvetica text-slate-800 antialiased selection:bg-[rgba(30,50,90,0.85)] selection:text-white">
           
           {/* Toast Notification */}
           {toastMessage && (
