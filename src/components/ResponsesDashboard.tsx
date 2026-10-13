@@ -18,9 +18,15 @@ import {
   ChevronRight,
   ExternalLink,
   ShieldCheck,
-  Send
+  Send,
+  Copy,
+  Check,
+  Lightbulb,
+  TrendingUp,
+  MessageSquare
 } from 'lucide-react';
-import { TARGET_SURVEY_EMAIL } from '../services/gmail';
+import { TARGET_SURVEY_EMAIL } from '../services/emailAutomation';
+import { generateFeedbackInsights, FeedbackInsightReport } from '../services/aiInsights';
 
 interface Props {
   responses: SurveyResponse[];
@@ -39,7 +45,14 @@ export const ResponsesDashboard: React.FC<Props> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'beta' | 'sent' | 'pending'>('all');
   const [selectedItem, setSelectedItem] = useState<SurveyResponse | null>(null);
+
+  // AI Insights State
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiReport, setAiReport] = useState<FeedbackInsightReport | null>(null);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [copiedReport, setCopiedReport] = useState(false);
 
   // Filtered list
   const filteredResponses = useMemo(() => {
@@ -51,9 +64,16 @@ export const ResponsesDashboard: React.FC<Props> = ({
         item.desiredSolution.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesRole = selectedRole === 'all' || item.respondentRole === selectedRole;
-      return matchesSearch && matchesRole;
+
+      const matchesStatus =
+        statusFilter === 'all' ||
+        (statusFilter === 'beta' && item.wantsBetaAccess) ||
+        (statusFilter === 'sent' && item.emailStatus === 'sent') ||
+        (statusFilter === 'pending' && item.emailStatus !== 'sent');
+
+      return matchesSearch && matchesRole && matchesStatus;
     });
-  }, [responses, searchTerm, selectedRole]);
+  }, [responses, searchTerm, selectedRole, statusFilter]);
 
   // Analytics Computations
   const stats = useMemo(() => {
@@ -161,9 +181,45 @@ export const ResponsesDashboard: React.FC<Props> = ({
     const link = document.createElement('a');
     link.setAttribute('href', url);
     link.setAttribute('download', `vexlora-survey-responses-${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  // AI Insights Generator (100% Free)
+  const handleGenerateInsights = async () => {
+    if (responses.length === 0) return;
+    setIsAnalyzing(true);
+    try {
+      const report = await generateFeedbackInsights(responses);
+      setAiReport(report);
+      setIsAiModalOpen(true);
+    } catch (err) {
+      console.error('Failed to generate insights:', err);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleCopyReport = () => {
+    if (!aiReport) return;
+    const text = `=== Vexlora Product Intelligence Report ===
+Total Submissions Evaluated: ${aiReport.totalAnalyzed}
+Sentiment Score: ${aiReport.sentimentScore}
+
+--- Executive Summary ---
+${aiReport.executiveSummary}
+
+--- Top Actionable Priorities ---
+${aiReport.topPriorities.map((p, i) => `${i + 1}. ${p}`).join('\n')}
+
+--- Strategic Roadmap Recommendations ---
+${aiReport.recommendations.map(r => `• ${r}`).join('\n')}
+
+Generated at: ${new Date().toLocaleString()}
+`;
+    navigator.clipboard.writeText(text);
+    setCopiedReport(true);
+    setTimeout(() => setCopiedReport(false), 2500);
   };
 
   return (
@@ -187,6 +243,25 @@ export const ResponsesDashboard: React.FC<Props> = ({
         </div>
 
         <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={handleGenerateInsights}
+            disabled={responses.length === 0 || isAnalyzing}
+            className="flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 active:scale-98 rounded-xl transition-all shadow-md shadow-indigo-100 disabled:opacity-50 cursor-pointer"
+          >
+            {isAnalyzing ? (
+              <>
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span>Analyzing Feedback...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>AI Insights &amp; Summary</span>
+              </>
+            )}
+          </button>
+
           <button
             type="button"
             onClick={exportToCSV}
@@ -357,6 +432,55 @@ export const ResponsesDashboard: React.FC<Props> = ({
 
         </div>
 
+        {/* Quick Status Filter Tabs */}
+        <div className="flex items-center gap-1.5 px-4 sm:px-5 py-2.5 border-b border-slate-100 overflow-x-auto text-xs bg-slate-50/50">
+          <span className="text-slate-400 font-medium shrink-0 mr-1">Filter:</span>
+          <button
+            type="button"
+            onClick={() => setStatusFilter('all')}
+            className={`px-3 py-1.5 rounded-lg font-medium transition-colors shrink-0 cursor-pointer ${
+              statusFilter === 'all'
+                ? 'bg-indigo-600 text-white shadow-2xs'
+                : 'text-slate-600 hover:bg-slate-100 bg-white border border-slate-200'
+            }`}
+          >
+            All ({responses.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setStatusFilter('beta')}
+            className={`px-3 py-1.5 rounded-lg font-medium transition-colors shrink-0 cursor-pointer ${
+              statusFilter === 'beta'
+                ? 'bg-emerald-600 text-white shadow-2xs'
+                : 'text-slate-600 hover:bg-slate-100 bg-white border border-slate-200'
+            }`}
+          >
+            ⭐ Beta Testers ({responses.filter(r => r.wantsBetaAccess).length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setStatusFilter('sent')}
+            className={`px-3 py-1.5 rounded-lg font-medium transition-colors shrink-0 cursor-pointer ${
+              statusFilter === 'sent'
+                ? 'bg-indigo-600 text-white shadow-2xs'
+                : 'text-slate-600 hover:bg-slate-100 bg-white border border-slate-200'
+            }`}
+          >
+            ✅ Emailed to Vexlora ({responses.filter(r => r.emailStatus === 'sent').length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setStatusFilter('pending')}
+            className={`px-3 py-1.5 rounded-lg font-medium transition-colors shrink-0 cursor-pointer ${
+              statusFilter === 'pending'
+                ? 'bg-amber-600 text-white shadow-2xs'
+                : 'text-slate-600 hover:bg-slate-100 bg-white border border-slate-200'
+            }`}
+          >
+            ⚠️ Delivery Pending ({responses.filter(r => r.emailStatus !== 'sent').length})
+          </button>
+        </div>
+
         {/* Responses Table / Card List */}
         {filteredResponses.length === 0 ? (
           <div className="p-12 text-center text-slate-500 space-y-3">
@@ -443,6 +567,15 @@ export const ResponsesDashboard: React.FC<Props> = ({
                   </div>
 
                   <div className="flex items-center gap-2">
+                    <a
+                      href={`mailto:${item.userEmail}?subject=${encodeURIComponent(`Thank you for your Vexlora feedback, ${item.respondentName}`)}&body=${encodeURIComponent(`Hi ${item.respondentName},\n\nThank you for taking the time to share your feedback with Vexlora!\n\nWe noted your thoughts regarding:\n"${item.biggestFrustration}"\n\nWe are actively working on this and would love to stay in touch!\n\nBest regards,\nThe Vexlora Team\nvexloraindia@gmail.com`)}`}
+                      className="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-1 cursor-pointer"
+                      title={`Send email directly to ${item.userEmail}`}
+                    >
+                      <Mail className="w-3 h-3 text-indigo-500" />
+                      Reply
+                    </a>
+
                     {onResendEmail && item.emailStatus !== 'sent' && (
                       <button
                         type="button"
@@ -459,7 +592,7 @@ export const ResponsesDashboard: React.FC<Props> = ({
                     <button
                       type="button"
                       onClick={() => setSelectedItem(item)}
-                      className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors flex items-center gap-1"
+                      className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       View Details
@@ -609,13 +742,143 @@ export const ResponsesDashboard: React.FC<Props> = ({
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3">
+              <a
+                href={`mailto:${selectedItem.userEmail}?subject=${encodeURIComponent(`Regarding your Vexlora feedback, ${selectedItem.respondentName}`)}&body=${encodeURIComponent(`Hi ${selectedItem.respondentName},\n\nThank you for taking the time to share your feedback with Vexlora!\n\nWe are actively reviewing your thoughts on:\n"${selectedItem.biggestFrustration}"\n\n${selectedItem.wantsBetaAccess ? 'Since you opted in for early beta access, we will keep you directly posted as soon as preview builds are ready.\n\n' : ''}Best regards,\nThe Vexlora Team\nvexloraindia@gmail.com`)}`}
+                className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
+              >
+                <Mail className="w-3.5 h-3.5" />
+                Reply to {selectedItem.respondentName}
+              </a>
+
               <button
                 type="button"
                 onClick={() => setSelectedItem(null)}
-                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-100"
+                className="px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 Close
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* AI Product Insights Modal */}
+      {isAiModalOpen && aiReport && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95">
+            
+            {/* Header */}
+            <div className="bg-gradient-to-r from-indigo-600 via-indigo-700 to-violet-600 px-6 py-5 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-white/20 rounded-xl backdrop-blur-xs">
+                  <Sparkles className="w-5 h-5 text-amber-300" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg leading-tight">Vexlora Product Intelligence</h3>
+                  <p className="text-xs text-indigo-100">
+                    Executive Analysis of {aiReport.totalAnalyzed} Survey Responses • {aiReport.isAiGenerated ? 'Gemini AI Engine' : 'Built-in Analytics Engine'}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsAiModalOpen(false)}
+                className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto text-xs text-slate-700">
+              
+              {/* Sentiment & Volume Card */}
+              <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                  <span className="text-slate-400 font-semibold block text-[11px] uppercase tracking-wider">User Sentiment Score</span>
+                  <span className="text-sm font-bold text-slate-900">{aiReport.sentimentScore}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-slate-400 font-semibold block text-[11px] uppercase tracking-wider">Responses Evaluated</span>
+                  <span className="text-sm font-bold text-indigo-600">{aiReport.totalAnalyzed} submissions</span>
+                </div>
+              </div>
+
+              {/* Executive Summary */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 text-sm flex items-center gap-1.5 text-indigo-600">
+                  <TrendingUp className="w-4 h-4" />
+                  Executive Summary
+                </h4>
+                <div className="p-4 bg-indigo-50/60 rounded-xl border border-indigo-100 text-slate-800 leading-relaxed text-xs">
+                  {aiReport.executiveSummary}
+                </div>
+              </div>
+
+              {/* Top Priorities */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 text-sm flex items-center gap-1.5 text-red-600">
+                  <Lightbulb className="w-4 h-4" />
+                  Top Actionable Priorities
+                </h4>
+                <div className="space-y-2">
+                  {aiReport.topPriorities.map((item, idx) => (
+                    <div key={idx} className="p-3 bg-red-50/50 rounded-xl border border-red-100 flex items-start gap-2.5">
+                      <span className="w-5 h-5 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-[11px] shrink-0 mt-0.5">
+                        {idx + 1}
+                      </span>
+                      <span className="text-slate-800 leading-normal">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Strategic Roadmap Recommendations */}
+              <div className="space-y-2">
+                <h4 className="font-bold text-slate-900 text-sm flex items-center gap-1.5 text-emerald-600">
+                  <CheckCircle2 className="w-4 h-4" />
+                  Roadmap Recommendations
+                </h4>
+                <div className="space-y-2">
+                  {aiReport.recommendations.map((rec, idx) => (
+                    <div key={idx} className="p-3 bg-emerald-50/50 rounded-xl border border-emerald-100 flex items-start gap-2.5">
+                      <span className="text-emerald-600 font-bold shrink-0 mt-0.5">✔</span>
+                      <span className="text-slate-800 leading-normal">{rec}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={handleCopyReport}
+                className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                {copiedReport ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Copied to Clipboard!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-slate-500" />
+                    <span>Copy Full Report</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsAiModalOpen(false)}
+                className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors cursor-pointer"
+              >
+                Close Report
               </button>
             </div>
 
