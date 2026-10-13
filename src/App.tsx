@@ -24,7 +24,11 @@ import {
 } from './services/emailAutomation';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
 
-const ADMIN_EMAILS = ['joshi.namburu4339@gmail.com', 'vexloraindia@gmail.com'];
+const ADMIN_EMAILS = [
+  'joshi.namburu4339@gmail.com',
+  'vexloraindia@gmail.com',
+  'khushatel3010pvc@gmail.com'
+];
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);

@@ -27,7 +27,8 @@ service cloud.firestore {
       return isSignedIn() &&
         request.auth.token.email_verified == true &&
         (request.auth.token.email == 'joshi.namburu4339@gmail.com' ||
-         request.auth.token.email == 'vexloraindia@gmail.com');
+         request.auth.token.email == 'vexloraindia@gmail.com' ||
+         request.auth.token.email == 'khushatel3010pvc@gmail.com');
     }
 
     function isValidSurveyResponse(data) {
