@@ -19,9 +19,9 @@ import {
   updateSurveyEmailStatus
 } from './services/survey';
 import {
-  sendSurveyEmailViaGmail,
+  sendAutomatedSurveyEmail,
   TARGET_SURVEY_EMAIL
-} from './services/gmail';
+} from './services/emailAutomation';
 import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
 
 const ADMIN_EMAILS = ['joshi.namburu4339@gmail.com', 'vexloraindia@gmail.com'];
@@ -162,20 +162,47 @@ export default function App() {
 
     setIsSendingEmail(true);
     try {
+      // 1. Save response to Firestore
       await saveSurveyResponse(newSurvey);
       setLastSubmissionName(newSurvey.respondentName);
-      setLastEmailStatus('draft');
-      setLastEmailError(undefined);
+
+      // 2. Automated email dispatch directly to target email
+      const emailResult = await sendAutomatedSurveyEmail(newSurvey);
+
+      if (emailResult.success) {
+        if (emailResult.isFirstTimeActivationNotice) {
+          await updateSurveyEmailStatus(newSurvey.id, 'pending');
+          setLastEmailStatus('pending');
+          setLastEmailError('First-time activation notice sent to ' + TARGET_SURVEY_EMAIL + '. Please click the one-time link in your inbox.');
+          setToastMessage({
+            type: 'success',
+            text: `Saved to database! Check ${TARGET_SURVEY_EMAIL} for one-time form activation.`
+          });
+        } else {
+          await updateSurveyEmailStatus(newSurvey.id, 'sent');
+          setLastEmailStatus('sent');
+          setLastEmailError(undefined);
+          setToastMessage({
+            type: 'success',
+            text: `Feedback submitted and automated email sent directly to ${TARGET_SURVEY_EMAIL}!`
+          });
+        }
+      } else {
+        await updateSurveyEmailStatus(newSurvey.id, 'failed');
+        setLastEmailStatus('failed');
+        setLastEmailError(emailResult.error);
+        setToastMessage({
+          type: 'error',
+          text: `Saved to database, but automated email failed: ${emailResult.error || 'Check network connection'}`
+        });
+      }
+
       setIsSuccessModalOpen(true);
-      setToastMessage({
-        type: 'success',
-        text: 'Thank you! Your feedback has been submitted successfully.'
-      });
     } catch (err: any) {
-      console.error('Firestore save error:', err);
+      console.error('Firestore save or automation error:', err);
       setToastMessage({
         type: 'error',
-        text: 'Failed to save to Firestore: ' + (err.message || 'Unknown error')
+        text: 'Failed to submit response: ' + (err.message || 'Unknown error')
       });
     } finally {
       setIsSendingEmail(false);
@@ -184,32 +211,13 @@ export default function App() {
 
   // Resend email action from responses dashboard
   const handleResendEmail = async (survey: SurveyResponse) => {
-    if (!user?.email) {
-      handleSignIn();
-      return;
-    }
-
     try {
-      let token = accessToken || (await getAccessToken());
-      if (!token) {
-        const signinRes = await googleSignIn();
-        token = signinRes?.accessToken || null;
-      }
-
-      if (!token) {
-        setToastMessage({
-          type: 'error',
-          text: 'Google authentication required to send email.'
-        });
-        return;
-      }
-
       setToastMessage({
         type: 'success',
-        text: `Sending email to ${TARGET_SURVEY_EMAIL}...`
+        text: `Sending automated email to ${TARGET_SURVEY_EMAIL}...`
       });
 
-      const res = await sendSurveyEmailViaGmail(token, survey, user.email, TARGET_SURVEY_EMAIL);
+      const res = await sendAutomatedSurveyEmail(survey);
       if (res.success) {
         await updateSurveyEmailStatus(survey.id, 'sent');
         setToastMessage({
@@ -217,9 +225,10 @@ export default function App() {
           text: `Successfully emailed survey to ${TARGET_SURVEY_EMAIL}!`
         });
       } else {
+        await updateSurveyEmailStatus(survey.id, 'failed');
         setToastMessage({
           type: 'error',
-          text: `Gmail send failed: ${res.error}`
+          text: `Automated email failed: ${res.error || 'Could not dispatch'}`
         });
       }
     } catch (err: any) {

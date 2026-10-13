@@ -71,12 +71,28 @@ export const SubmissionSuccessModal: React.FC<Props> = ({
           <div className="flex items-center justify-between border-t border-slate-200/60 pt-2.5">
             <span className="flex items-center gap-2 text-slate-700 font-medium">
               <Mail className="w-4 h-4 text-indigo-500" />
-              Team Notification
+              Email Automation
             </span>
-            <span className="bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
-              Recorded for {TARGET_SURVEY_EMAIL}
-            </span>
+            {emailStatus === 'sent' ? (
+              <span className="bg-emerald-100 text-emerald-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                <CheckCircle className="w-3 h-3 text-emerald-600" />
+                Dispatched to {TARGET_SURVEY_EMAIL}
+              </span>
+            ) : emailStatus === 'failed' ? (
+              <span className="bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                Delivery Pending (Saved to DB)
+              </span>
+            ) : (
+              <span className="bg-indigo-100 text-indigo-800 font-semibold px-2 py-0.5 rounded-full flex items-center gap-1">
+                Queued for {TARGET_SURVEY_EMAIL}
+              </span>
+            )}
           </div>
+
+          <p className="text-[11px] text-indigo-700 bg-indigo-50/70 p-2.5 rounded-lg border border-indigo-100 flex items-start gap-1.5 leading-relaxed">
+            <span className="font-bold shrink-0">Direct Reply-To:</span>
+            <span>When the team hits &ldquo;Reply&rdquo; in their Gmail inbox, it routes directly to your email address.</span>
+          </p>
 
           {emailError && (
             <p className="text-[11px] text-amber-700 bg-amber-50 p-2 rounded border border-amber-200/60">

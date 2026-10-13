@@ -551,8 +551,9 @@ export const SurveyForm: React.FC<Props> = ({
           <span className="text-xs text-slate-500 block">
             Submission Target: <strong className="text-indigo-900 font-semibold">{TARGET_SURVEY_EMAIL}</strong>
           </span>
-          <span className="text-xs text-slate-400">
-            Recorded in Firestore with verified audit trail
+          <span className="text-xs text-emerald-700 flex items-center gap-1 font-medium mt-0.5">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            Direct reply automation enabled
           </span>
         </div>
 
@@ -565,12 +566,12 @@ export const SurveyForm: React.FC<Props> = ({
             {isSubmitting ? (
               <>
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Preparing Submission...</span>
+                <span>Submitting &amp; Emailing Team...</span>
               </>
             ) : (
               <>
                 <Send className="w-4 h-4" />
-                <span>Review &amp; Submit Survey</span>
+                <span>Submit &amp; Email to Team Directly</span>
               </>
             )}
           </button>
