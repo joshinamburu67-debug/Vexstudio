@@ -21,40 +21,57 @@ export interface EmailSendResult {
  * 2. 100% Free FormSubmit.co AJAX automation out-of-the-box
  */
 export async function sendAutomatedSurveyEmail(survey: SurveyResponse): Promise<EmailSendResult> {
-  const customWebhookUrl = import.meta.env.VITE_EMAIL_WEBHOOK_URL;
+  const customWebhookUrl =
+    (typeof window !== 'undefined' && localStorage.getItem('vexlora_webhook_url')) ||
+    import.meta.env.VITE_EMAIL_WEBHOOK_URL;
 
-  // 1. If user configured a custom webhook (e.g. Google Apps Script Web App)
+  // 1. If user configured a custom webhook (e.g. Google Apps Script Web App for sending directly FROM vexloraindia@gmail.com)
   if (customWebhookUrl && customWebhookUrl.trim().length > 0) {
+    const url = customWebhookUrl.trim();
+    const payload = JSON.stringify({
+      recipient: TARGET_SURVEY_EMAIL,
+      replyTo: survey.userEmail,
+      respondentName: survey.respondentName,
+      respondentEmail: survey.userEmail,
+      subject: `[Vexlora Survey Response] Feedback from ${survey.respondentName} (${survey.userEmail})`,
+      htmlBody: buildSurveyEmailHtml(survey),
+      data: survey
+    });
+
     try {
-      const response = await fetch(customWebhookUrl.trim(), {
+      // Use text/plain to avoid preflight CORS restrictions on Google Apps Script
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'text/plain;charset=utf-8'
         },
-        body: JSON.stringify({
-          recipient: TARGET_SURVEY_EMAIL,
-          replyTo: survey.userEmail,
-          respondentName: survey.respondentName,
-          respondentEmail: survey.userEmail,
-          subject: `[Vexlora Survey Response] Feedback from ${survey.respondentName} (${survey.userEmail})`,
-          htmlBody: buildSurveyEmailHtml(survey),
-          data: survey
-        })
+        body: payload
       });
 
-      if (response.ok) {
+      if (response.ok || response.type === 'opaque') {
         return {
           success: true,
           provider: 'custom-webhook'
         };
-      } else {
-        const errText = await response.text().catch(() => '');
-        console.warn('Custom webhook email dispatch returned non-200:', errText);
-        // Fall back to FormSubmit if custom webhook failed
       }
-    } catch (webhookErr: any) {
-      console.warn('Custom webhook dispatch failed, attempting FormSubmit fallback:', webhookErr);
-      // Fall through to FormSubmit fallback
+    } catch (err: any) {
+      // Fallback with mode: 'no-cors' so Google Apps Script always executes and sends from vexloraindia@gmail.com
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: payload
+        });
+        return {
+          success: true,
+          provider: 'custom-webhook'
+        };
+      } catch (noCorsErr) {
+        console.warn('Webhook dispatch failed, falling back to FormSubmit:', noCorsErr);
+      }
     }
   }
 

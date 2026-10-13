@@ -23,7 +23,8 @@ import {
   Check,
   Lightbulb,
   TrendingUp,
-  MessageSquare
+  MessageSquare,
+  Settings
 } from 'lucide-react';
 import { TARGET_SURVEY_EMAIL } from '../services/emailAutomation';
 import { generateFeedbackInsights, FeedbackInsightReport } from '../services/aiInsights';
@@ -53,6 +54,14 @@ export const ResponsesDashboard: React.FC<Props> = ({
   const [aiReport, setAiReport] = useState<FeedbackInsightReport | null>(null);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
   const [copiedReport, setCopiedReport] = useState(false);
+
+  // Webhook settings state for vexloraindia@gmail.com
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [webhookUrlInput, setWebhookUrlInput] = useState<string>(() => {
+    return (typeof window !== 'undefined' && localStorage.getItem('vexlora_webhook_url')) || '';
+  });
+  const [isWebhookSaved, setIsWebhookSaved] = useState(false);
+  const [copiedScript, setCopiedScript] = useState(false);
 
   // Filtered list
   const filteredResponses = useMemo(() => {
@@ -222,6 +231,71 @@ Generated at: ${new Date().toLocaleString()}
     setTimeout(() => setCopiedReport(false), 2500);
   };
 
+  const handleSaveWebhook = () => {
+    if (typeof window !== 'undefined') {
+      if (webhookUrlInput.trim()) {
+        localStorage.setItem('vexlora_webhook_url', webhookUrlInput.trim());
+      } else {
+        localStorage.removeItem('vexlora_webhook_url');
+      }
+      setIsWebhookSaved(true);
+      setTimeout(() => setIsWebhookSaved(false), 2500);
+    }
+  };
+
+  const handleCopyScript = () => {
+    const code = `function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var recipient = data.recipient || "vexloraindia@gmail.com";
+    var replyTo = data.replyTo || data.respondentEmail;
+    var subject = data.subject || ("New Vexlora Survey Submission from " + data.respondentName);
+    var htmlBody = data.htmlBody;
+
+    // 1. Send full submission notification to Vexlora team
+    MailApp.sendEmail({
+      to: recipient,
+      replyTo: replyTo,
+      subject: subject,
+      htmlBody: htmlBody
+    });
+
+    // 2. Automatically send 'Thank you for choosing Vexlora' confirmation back to the respondent
+    if (replyTo && replyTo.indexOf('@') > -1) {
+      MailApp.sendEmail({
+        to: replyTo,
+        subject: "Thank you for choosing Vexlora! We will connect with you soon",
+        htmlBody: '<div style="font-family: -apple-system, BlinkMacSystemFont, \\'Segoe UI\\', Roboto, sans-serif; max-width: 580px; margin: 0 auto; padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;">' +
+          '<h2 style="color: #4f46e5; margin-top: 0;">Thank you for choosing Vexlora!</h2>' +
+          '<p style="color: #334155; font-size: 15px; line-height: 1.6;">Hi <strong>' + (data.respondentName || 'there') + '</strong>,</p>' +
+          '<p style="color: #334155; font-size: 15px; line-height: 1.6;">Thank you for choosing Vexlora and submitting your survey response. We have received your valuable feedback and product suggestions, and our team will connect with you soon regarding early beta updates!</p>' +
+          '<div style="margin: 24px 0; padding: 16px; background: #f8fafc; border-left: 4px solid #6366f1; border-radius: 6px; font-size: 14px; color: #475569;">' +
+          '<strong>Your Recorded Feedback:</strong><br>' +
+          '<em>&ldquo;' + (data.data?.biggestFrustration || data.subject || 'Recorded feedback') + '&rdquo;</em>' +
+          '</div>' +
+          '<p style="color: #64748b; font-size: 13px; line-height: 1.5;">If you have any questions in the meantime, feel free to reply directly to this email.</p>' +
+          '<br>' +
+          '<p style="color: #0f172a; font-size: 14px; margin-bottom: 0;">Warm regards,<br><strong>The Vexlora Team</strong><br><a href="mailto:vexloraindia@gmail.com" style="color: #4f46e5; text-decoration: none;">vexloraindia@gmail.com</a></p>' +
+          '</div>'
+      });
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({
+      success: true,
+      message: "Email sent successfully"
+    })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      success: false,
+      error: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+    navigator.clipboard.writeText(code);
+    setCopiedScript(true);
+    setTimeout(() => setCopiedScript(false), 2500);
+  };
+
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-20">
       
@@ -243,6 +317,18 @@ Generated at: ${new Date().toLocaleString()}
         </div>
 
         <div className="flex items-center gap-2.5">
+          {isAdmin && (
+            <button
+              type="button"
+              onClick={() => setIsSettingsModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-xl transition-all shadow-2xs cursor-pointer"
+              title="Configure native vexloraindia@gmail.com sender"
+            >
+              <Settings className="w-4 h-4 text-slate-500" />
+              <span>Email Settings</span>
+            </button>
+          )}
+
           <button
             type="button"
             onClick={handleGenerateInsights}
@@ -882,6 +968,106 @@ Generated at: ${new Date().toLocaleString()}
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Native Gmail Sender Settings Modal */}
+      {isSettingsModalOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all animate-in fade-in zoom-in-95">
+            <div className="bg-gradient-to-r from-indigo-600 to-violet-600 px-6 py-5 text-white flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 bg-white/20 rounded-xl backdrop-blur-xs">
+                  <Settings className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg leading-tight">Native Gmail Sender Configuration</h3>
+                  <p className="text-xs text-indigo-100">Send auto-replies directly FROM vexloraindia@gmail.com (100% Free)</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsSettingsModalOpen(false)}
+                className="text-white/80 hover:text-white p-1 rounded-lg hover:bg-white/10 cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4 text-xs text-slate-700">
+              <div className="bg-indigo-50/70 border border-indigo-100 rounded-xl p-4 text-indigo-950 space-y-1.5 leading-relaxed">
+                <p className="font-semibold text-indigo-900">How Native Sending Works:</p>
+                <p className="text-[11.5px] text-indigo-800">
+                  Google Apps Script executes on Google&apos;s free cloud directly under your <strong>vexloraindia@gmail.com</strong> account. When a user submits, Google automatically sends the &ldquo;Thank you for choosing Vexlora! We will connect with you soon&rdquo; confirmation email straight from <strong>vexloraindia@gmail.com</strong>.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="font-bold text-slate-900 block text-xs">
+                  Google Apps Script Web App URL:
+                </label>
+                <input
+                  type="url"
+                  value={webhookUrlInput}
+                  onChange={e => setWebhookUrlInput(e.target.value)}
+                  placeholder="https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec"
+                  className="w-full p-2.5 border border-slate-300 rounded-xl text-xs font-mono focus:border-indigo-600 focus:outline-hidden"
+                />
+                <p className="text-[11px] text-slate-500">
+                  Leave empty to use the standard fallback service, or paste your Web App URL to send natively from vexloraindia@gmail.com.
+                </p>
+              </div>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                <span className="font-bold text-slate-800 block text-xs">Setup in 30 Seconds:</span>
+                <ol className="list-decimal pl-4 space-y-1 text-[11px] text-slate-600 leading-relaxed">
+                  <li>Visit <a href="https://script.google.com" target="_blank" rel="noreferrer" className="text-indigo-600 font-semibold underline">script.google.com</a> while signed in to <strong>vexloraindia@gmail.com</strong>.</li>
+                  <li>Click &ldquo;New Project&rdquo; and paste the script code.</li>
+                  <li>Click <strong>Deploy &gt; New deployment &gt; Web app</strong>.</li>
+                  <li>Set &ldquo;Who has access&rdquo; to <strong>Anyone</strong>, click Deploy, and copy your Web App URL.</li>
+                </ol>
+                <button
+                  type="button"
+                  onClick={handleCopyScript}
+                  className="mt-2 flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-300 hover:bg-slate-100 rounded-lg text-slate-700 font-semibold text-[11px] transition-colors cursor-pointer"
+                >
+                  {copiedScript ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Copied Script to Clipboard!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-slate-500" />
+                      <span>Copy Google Apps Script Code</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+              <span className="text-xs text-emerald-600 font-semibold">
+                {isWebhookSaved ? '✔ Webhook Settings Saved!' : ''}
+              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSettingsModalOpen(false)}
+                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 rounded-xl cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveWebhook}
+                  className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-xs transition-colors cursor-pointer"
+                >
+                  Save Settings
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
