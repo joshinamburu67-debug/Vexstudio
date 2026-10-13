@@ -28,8 +28,8 @@ export const LoginPage: React.FC<Props> = ({
 
   const menuItems = [
     { label: 'Problem Statements', hasDropdown: false },
-    { label: 'Survey Features', hasDropdown: true },
-    { label: 'Feature Wishlist', hasDropdown: false },
+    { label: 'Real Solutions', hasDropdown: false },
+    { label: 'Save Your Time', hasDropdown: false },
     { label: 'Founder Direct', hasDropdown: true }
   ];
 
@@ -58,7 +58,7 @@ export const LoginPage: React.FC<Props> = ({
                 Vexlora
               </span>
               <span className="text-[10px] sm:text-[11px] text-[rgba(30,50,90,0.7)] px-2 sm:px-2.5 py-0.5 rounded-full bg-white/50 backdrop-blur-md border border-white/20">
-                Surveys Hub
+                Problem Resolution
               </span>
             </div>
 
