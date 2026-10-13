@@ -121,7 +121,7 @@ export const SurveyForm: React.FC<Props> = ({
       errs.biggestFrustration = 'Please describe your biggest frustration or problem.';
     }
     if (!formData.desiredSolution.trim()) {
-      errs.desiredSolution = 'Please tell us what kind of tool would help you.';
+      errs.desiredSolution = 'Please explain what solution or features you wish existed.';
     }
     setErrors(errs);
     return Object.keys(errs).length === 0;
@@ -130,24 +130,28 @@ export const SurveyForm: React.FC<Props> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) {
-      window.scrollTo({ top: 300, behavior: 'smooth' });
+      // Scroll to the first error
+      const firstError = document.querySelector('.text-red-600');
+      if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       return;
     }
     onSubmitSurvey(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-6 pb-20 font-helvetica select-none">
+    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-4 sm:space-y-6 pb-20 font-helvetica select-none">
       
       {/* Top Banner & Header Card */}
-      <div className="bg-white/60 backdrop-blur-xl rounded-[1.8rem] md:rounded-[2.5rem] border border-white/40 shadow-xs overflow-hidden p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/30 pb-5">
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[2.5rem] border border-white/40 shadow-xs overflow-hidden p-4 sm:p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/30 pb-4 sm:pb-5">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-normal bg-white/70 text-[rgba(30,50,90,0.9)] mb-2 border border-white/40">
               <Sparkles className="w-3.5 h-3.5 text-[rgba(30,50,90,0.85)]" />
               <span>Fluid Feedback Streams</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
+            <h1 className="text-xl sm:text-3xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
               App &amp; Website Improvement Survey
             </h1>
           </div>
@@ -155,7 +159,7 @@ export const SurveyForm: React.FC<Props> = ({
           <button
             type="button"
             onClick={fillSampleData}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-normal text-[rgba(30,50,90,0.85)] bg-white/70 hover:bg-white border border-white/40 rounded-full transition-all shrink-0 self-start sm:self-auto cursor-pointer shadow-xs"
+            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-normal text-[rgba(30,50,90,0.85)] bg-white/75 hover:bg-white border border-white/40 rounded-full transition-all shrink-0 cursor-pointer shadow-xs active:scale-95"
             title="Autofill form with realistic testing responses"
           >
             <Zap className="w-3.5 h-3.5 text-[rgba(30,50,90,0.85)]" />
@@ -163,27 +167,27 @@ export const SurveyForm: React.FC<Props> = ({
           </button>
         </div>
 
-        <p className="text-sm text-[#5E6470] opacity-80 mt-4 leading-relaxed font-normal">
+        <p className="text-xs sm:text-sm text-[#5E6470] opacity-80 mt-3 sm:mt-4 leading-relaxed font-normal">
           We are designing new digital products and want to build what people actually need. Tell us about the difficulties, bottlenecks, and bugs you encounter in everyday apps or websites, and your ideas for solutions that would truly make your life easier.
         </p>
 
-        <div className="mt-4 pt-4 border-t border-white/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="mt-3.5 sm:mt-4 pt-3.5 sm:pt-4 border-t border-white/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2 text-[rgba(30,50,90,0.7)] font-normal">
             <Mail className="w-4 h-4 text-[rgba(30,50,90,0.8)] shrink-0" />
-            <span>
-              All responses will be submitted directly to{' '}
+            <span className="truncate">
+              Responses submit directly to{' '}
               <strong className="text-[rgba(30,50,90,0.95)] font-medium">{TARGET_SURVEY_EMAIL}</strong>
             </span>
           </div>
 
           {user ? (
-            <span className="text-emerald-800 font-normal bg-emerald-500/15 px-3 py-1 rounded-full flex items-center gap-1.5 border border-emerald-500/20">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              Signed in as: {user.email}
+            <span className="text-emerald-800 font-normal bg-emerald-500/15 px-3 py-1 rounded-full flex items-center gap-1.5 border border-emerald-500/20 text-xs self-start sm:self-auto">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span className="truncate">Signed in: {user.email}</span>
             </span>
           ) : (
-            <span className="text-amber-800 font-normal bg-amber-500/15 px-3 py-1 rounded-full flex items-center gap-1.5 border border-amber-500/20">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
+            <span className="text-amber-800 font-normal bg-amber-500/15 px-3 py-1 rounded-full flex items-center gap-1.5 border border-amber-500/20 text-xs self-start sm:self-auto">
+              <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
               Sign in required to submit via Gmail
             </span>
           )}
@@ -192,9 +196,9 @@ export const SurveyForm: React.FC<Props> = ({
 
       {/* Non-authenticated Prompt Banner */}
       {!user && (
-        <div className="bg-white/50 backdrop-blur-xl border border-white/40 rounded-[1.6rem] md:rounded-[2rem] p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-sm sm:text-base flex items-center gap-2">
+        <div className="bg-white/50 backdrop-blur-xl border border-white/40 rounded-[1.4rem] sm:rounded-[2rem] p-4 sm:p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <h3 className="font-normal text-[rgba(30,50,90,0.95)] text-sm sm:text-base flex items-center justify-center sm:justify-start gap-2">
               <Lock className="w-4 h-4 text-[rgba(30,50,90,0.8)]" />
               Sign in with Google to Connect &amp; Submit
             </h3>
@@ -203,20 +207,20 @@ export const SurveyForm: React.FC<Props> = ({
               <strong>{TARGET_SURVEY_EMAIL}</strong> and save your record in Firestore.
             </p>
           </div>
-          <GoogleSignInButton onClick={onSignIn} label="Sign in with Google" />
+          <GoogleSignInButton onClick={onSignIn} label="Sign in with Google" className="w-full sm:w-auto" />
         </div>
       )}
 
       {/* SECTION 1: ABOUT YOU */}
-      <div className="bg-white/60 backdrop-blur-xl rounded-[1.6rem] md:rounded-[2.2rem] p-6 sm:p-7 shadow-xs border border-white/40 space-y-6">
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[2.2rem] p-4 sm:p-7 shadow-xs border border-white/40 space-y-4 sm:space-y-6">
         <div className="border-b border-white/30 pb-3">
-          <h2 className="text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
+          <h2 className="text-base sm:text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               1
             </span>
             About You &amp; Your Setup
           </h2>
-          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-1 font-normal">
+          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
             Helps us understand your work context and platforms.
           </p>
         </div>
@@ -232,7 +236,7 @@ export const SurveyForm: React.FC<Props> = ({
             value={formData.respondentName}
             onChange={e => setFormData({ ...formData, respondentName: e.target.value })}
             placeholder="e.g. Alex Morgan or Priya Patel"
-            className={`w-full px-4 py-2.5 rounded-xl bg-white/80 backdrop-blur-md border text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
+            className={`w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/80 backdrop-blur-md border text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
               errors.respondentName ? 'border-red-400 bg-red-50/20' : 'border-white/60'
             }`}
           />
@@ -249,7 +253,7 @@ export const SurveyForm: React.FC<Props> = ({
           <select
             value={formData.respondentRole}
             onChange={e => setFormData({ ...formData, respondentRole: e.target.value })}
-            className="w-full px-4 py-2.5 rounded-xl border border-white/60 text-sm text-[rgba(30,50,90,0.95)] focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] bg-white/80 backdrop-blur-md"
+            className="w-full px-4 py-2.5 sm:py-3 rounded-xl border border-white/60 text-base sm:text-sm text-[rgba(30,50,90,0.95)] focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] bg-white/80 backdrop-blur-md"
           >
             {ROLE_OPTIONS.map(role => (
               <option key={role} value={role}>
@@ -264,7 +268,7 @@ export const SurveyForm: React.FC<Props> = ({
           <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)] mb-2">
             What device/OS do you use most often for web &amp; apps?
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5">
             {DEVICE_OPTIONS.map(dev => {
               const active = formData.primaryDevice === dev;
               return (
@@ -272,7 +276,7 @@ export const SurveyForm: React.FC<Props> = ({
                   type="button"
                   key={dev}
                   onClick={() => setFormData({ ...formData, primaryDevice: dev })}
-                  className={`p-3 rounded-2xl border text-left text-xs font-normal transition-all cursor-pointer ${
+                  className={`p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-left text-xs font-normal transition-all cursor-pointer ${
                     active
                       ? 'border-[rgba(30,50,90,0.8)] bg-[rgba(30,50,90,0.85)] text-white shadow-xs'
                       : 'border-white/50 bg-white/70 hover:bg-white text-[rgba(30,50,90,0.8)]'
@@ -280,7 +284,7 @@ export const SurveyForm: React.FC<Props> = ({
                 >
                   <div className="flex items-center justify-between">
                     <span>{dev}</span>
-                    {active && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                    {active && <CheckCircle2 className="w-3.5 h-3.5 text-white shrink-0" />}
                   </div>
                 </button>
               );
@@ -290,15 +294,15 @@ export const SurveyForm: React.FC<Props> = ({
       </div>
 
       {/* SECTION 2: PROBLEMS & PAIN POINTS */}
-      <div className="bg-white/60 backdrop-blur-xl rounded-[1.6rem] md:rounded-[2.2rem] p-6 sm:p-7 shadow-xs border border-white/40 space-y-6">
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[2.2rem] p-4 sm:p-7 shadow-xs border border-white/40 space-y-4 sm:space-y-6">
         <div className="border-b border-white/30 pb-3">
-          <h2 className="text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
+          <h2 className="text-base sm:text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               2
             </span>
             Problems &amp; Challenges You Are Facing
           </h2>
-          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-1 font-normal">
+          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
             Tell us about the friction, bugs, or annoyances you endure in daily digital tools.
           </p>
         </div>
@@ -309,14 +313,14 @@ export const SurveyForm: React.FC<Props> = ({
             Which of these problems do you face regularly?{' '}
             <span className="text-xs text-[rgba(30,50,90,0.6)]">(Select all that apply)</span>
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
             {PAIN_POINT_OPTIONS.map(item => {
               const checked = formData.painPoints.includes(item.label);
               return (
                 <label
                   key={item.id}
                   onClick={() => togglePainPoint(item.label)}
-                  className={`flex items-start gap-3 p-3 rounded-2xl border text-xs cursor-pointer transition-all select-none ${
+                  className={`flex items-start gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border text-xs cursor-pointer transition-all select-none ${
                     checked
                       ? 'border-[rgba(30,50,90,0.8)] bg-[rgba(30,50,90,0.85)] text-white shadow-xs'
                       : 'border-white/50 bg-white/70 hover:bg-white text-[rgba(30,50,90,0.8)]'
@@ -326,7 +330,7 @@ export const SurveyForm: React.FC<Props> = ({
                     type="checkbox"
                     checked={checked}
                     onChange={() => {}}
-                    className="mt-0.5 rounded text-[rgba(30,50,90,0.9)] focus:ring-[rgba(30,50,90,0.4)] cursor-pointer"
+                    className="mt-0.5 rounded text-[rgba(30,50,90,0.9)] focus:ring-[rgba(30,50,90,0.4)] cursor-pointer shrink-0"
                   />
                   <span className="font-normal">{item.label}</span>
                 </label>
@@ -339,14 +343,14 @@ export const SurveyForm: React.FC<Props> = ({
         <div>
           <div className="flex items-center justify-between mb-2">
             <label className="block text-sm font-normal text-[rgba(30,50,90,0.9)]">
-              Overall Software Frustration Rating
+              Overall Frustration Rating
             </label>
             <span className="text-xs font-normal px-2.5 py-0.5 rounded-full bg-white/80 border border-white/50 text-[rgba(30,50,90,0.9)]">
               Level {formData.painLevel} / 5
             </span>
           </div>
 
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-5 gap-1.5 sm:gap-2">
             {[1, 2, 3, 4, 5].map(rating => {
               const isSelected = formData.painLevel === rating;
               return (
@@ -354,19 +358,19 @@ export const SurveyForm: React.FC<Props> = ({
                   type="button"
                   key={rating}
                   onClick={() => setFormData({ ...formData, painLevel: rating })}
-                  className={`p-3 rounded-2xl border flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                  className={`py-2.5 sm:py-3 px-1 rounded-xl sm:rounded-2xl border flex flex-col items-center justify-center gap-0.5 sm:gap-1 transition-all cursor-pointer ${
                     isSelected
                       ? 'border-[rgba(30,50,90,0.8)] bg-[rgba(30,50,90,0.85)] text-white shadow-xs'
                       : 'border-white/50 bg-white/70 hover:bg-white text-[rgba(30,50,90,0.8)]'
                   }`}
                 >
-                  <span className="font-normal text-base">{rating}</span>
-                  <span className="text-[10px] hidden sm:inline opacity-90 text-center font-normal">
+                  <span className="font-normal text-base sm:text-lg">{rating}</span>
+                  <span className="text-[9px] sm:text-[10px] opacity-90 text-center font-normal">
                     {rating === 1 && 'Mild'}
-                    {rating === 2 && 'Slight'}
-                    {rating === 3 && 'Noticeable'}
+                    {rating === 2 && 'Low'}
+                    {rating === 3 && 'Med'}
                     {rating === 4 && 'High'}
-                    {rating === 5 && 'Severe'}
+                    {rating === 5 && 'Max'}
                   </span>
                 </button>
               );
@@ -389,7 +393,7 @@ export const SurveyForm: React.FC<Props> = ({
             value={formData.biggestFrustration}
             onChange={e => setFormData({ ...formData, biggestFrustration: e.target.value })}
             placeholder="e.g. When trying to organize customer notes or export reports, the platform is sluggish, reloads unexpectedly, and forces me through 5 nested sub-menus..."
-            className={`w-full p-4 rounded-2xl bg-white/80 backdrop-blur-md border text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
+            className={`w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-md border text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
               errors.biggestFrustration ? 'border-red-400 bg-red-50/20' : 'border-white/60'
             }`}
           />
@@ -400,15 +404,15 @@ export const SurveyForm: React.FC<Props> = ({
       </div>
 
       {/* SECTION 3: SUGGESTIONS & WISHES */}
-      <div className="bg-white/60 backdrop-blur-xl rounded-[1.6rem] md:rounded-[2.2rem] p-6 sm:p-7 shadow-xs border border-white/40 space-y-6">
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[2.2rem] p-4 sm:p-7 shadow-xs border border-white/40 space-y-4 sm:space-y-6">
         <div className="border-b border-white/30 pb-3">
-          <h2 className="text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
+          <h2 className="text-base sm:text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               3
             </span>
             Ideas &amp; What Would Make Software Truly Useful
           </h2>
-          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-1 font-normal">
+          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
             Describe what you wish existed or what we should build for you.
           </p>
         </div>
@@ -428,7 +432,7 @@ export const SurveyForm: React.FC<Props> = ({
             value={formData.desiredSolution}
             onChange={e => setFormData({ ...formData, desiredSolution: e.target.value })}
             placeholder="e.g. An ultra-minimalist project manager with zero learning curve, instant hotkeys, reliable offline syncing, and instant export..."
-            className={`w-full p-4 rounded-2xl bg-white/80 backdrop-blur-md border text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
+            className={`w-full p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur-md border text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 transition-all focus:outline-hidden focus:border-[rgba(30,50,90,0.8)] focus:ring-2 focus:ring-[rgba(30,50,90,0.1)] ${
               errors.desiredSolution ? 'border-red-400 bg-red-50/20' : 'border-white/60'
             }`}
           />
@@ -443,7 +447,7 @@ export const SurveyForm: React.FC<Props> = ({
             Which features are absolute must-haves for you?{' '}
             <span className="text-xs text-[rgba(30,50,90,0.6)]">(Click to toggle)</span>
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {FEATURE_WISHLIST_OPTIONS.map(feat => {
               const active = formData.mustHaveFeatures.includes(feat);
               return (
@@ -451,7 +455,7 @@ export const SurveyForm: React.FC<Props> = ({
                   type="button"
                   key={feat}
                   onClick={() => toggleFeature(feat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-normal transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full text-xs font-normal transition-all cursor-pointer ${
                     active
                       ? 'bg-[rgba(30,50,90,0.85)] text-white shadow-xs border border-[rgba(30,50,90,0.9)]'
                       : 'bg-white/70 hover:bg-white text-[rgba(30,50,90,0.8)] border border-white/50'
@@ -475,33 +479,33 @@ export const SurveyForm: React.FC<Props> = ({
             value={formData.killerFeature}
             onChange={e => setFormData({ ...formData, killerFeature: e.target.value })}
             placeholder="e.g. Natural language voice capture, zero-latency search, offline-first sync"
-            className="w-full px-4 py-2.5 rounded-xl bg-white/80 backdrop-blur-md border border-white/60 text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)]"
+            className="w-full px-4 py-2.5 sm:py-3 rounded-xl bg-white/80 backdrop-blur-md border border-white/60 text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)]"
           />
         </div>
       </div>
 
       {/* SECTION 4: BETA ACCESS & FINAL NOTES */}
-      <div className="bg-white/60 backdrop-blur-xl rounded-[1.6rem] md:rounded-[2.2rem] p-6 sm:p-7 shadow-xs border border-white/40 space-y-6">
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[2.2rem] p-4 sm:p-7 shadow-xs border border-white/40 space-y-4 sm:space-y-6">
         <div className="border-b border-white/30 pb-3">
-          <h2 className="text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
+          <h2 className="text-base sm:text-lg font-normal text-[rgba(30,50,90,0.95)] flex items-center gap-2">
             <span className="w-6 h-6 rounded-full bg-[rgba(30,50,90,0.08)] border border-[rgba(30,50,90,0.15)] text-[rgba(30,50,90,0.9)] text-xs font-normal flex items-center justify-center">
               4
             </span>
             Connection &amp; Beta Access
           </h2>
-          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-1 font-normal">
+          <p className="text-xs text-[rgba(30,50,90,0.6)] mt-0.5 sm:mt-1 font-normal">
             Stay in touch with Vexlora India as we create solutions from this feedback.
           </p>
         </div>
 
         {/* Q10: Beta Access Toggle */}
-        <div className="flex items-start sm:items-center justify-between gap-4 p-4 rounded-2xl bg-white/70 border border-white/40">
+        <div className="flex items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/70 border border-white/40">
           <div>
             <span className="font-normal text-[rgba(30,50,90,0.95)] text-sm block">
               Would you like early beta access when we build this?
             </span>
             <span className="text-xs text-[rgba(30,50,90,0.6)] font-normal">
-              We will invite you for free early testing using your signed-in email ({user?.email || 'Google account'}).
+              We will invite you for free early testing using your signed-in email.
             </span>
           </div>
 
@@ -526,18 +530,18 @@ export const SurveyForm: React.FC<Props> = ({
             value={formData.additionalNotes}
             onChange={e => setFormData({ ...formData, additionalNotes: e.target.value })}
             placeholder="Share any additional thoughts, links, or contact preferences..."
-            className="w-full p-3 rounded-xl bg-white/80 backdrop-blur-md border border-white/60 text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)]"
+            className="w-full p-3 rounded-xl bg-white/80 backdrop-blur-md border border-white/60 text-base sm:text-sm text-[rgba(30,50,90,0.95)] placeholder:text-slate-400 focus:border-[rgba(30,50,90,0.8)] focus:outline-hidden focus:ring-2 focus:ring-[rgba(30,50,90,0.1)]"
           />
         </div>
       </div>
 
       {/* SUBMISSION BAR */}
-      <div className="bg-white/60 backdrop-blur-xl rounded-[1.6rem] md:rounded-[2.2rem] p-6 shadow-xs border border-white/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
+      <div className="bg-white/60 backdrop-blur-xl rounded-[1.4rem] sm:rounded-[2.2rem] p-4 sm:p-6 shadow-xs border border-white/40 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+        <div className="w-full sm:w-auto text-center sm:text-left">
           <span className="text-xs text-[rgba(30,50,90,0.65)] block font-normal">
             Submission Target: <strong className="text-[rgba(30,50,90,0.95)] font-medium">{TARGET_SURVEY_EMAIL}</strong>
           </span>
-          <span className="text-xs text-emerald-800 flex items-center gap-1 font-normal mt-0.5">
+          <span className="text-xs text-emerald-800 flex items-center justify-center sm:justify-start gap-1 font-normal mt-0.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             Direct reply automation enabled
           </span>
@@ -564,7 +568,7 @@ export const SurveyForm: React.FC<Props> = ({
         ) : (
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <span className="text-xs text-[rgba(30,50,90,0.7)] font-normal">Please sign in to submit:</span>
-            <GoogleSignInButton onClick={onSignIn} label="Sign in &amp; Submit" />
+            <GoogleSignInButton onClick={onSignIn} label="Sign in &amp; Submit" className="w-full sm:w-auto" />
           </div>
         )}
       </div>

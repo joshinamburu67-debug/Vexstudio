@@ -39,8 +39,8 @@ export const LoginPage: React.FC<Props> = ({
   ];
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center p-3 md:p-5 bg-[#f0f0f0] select-none font-helvetica">
-      <section className="relative w-full max-w-[1536px] min-h-[92vh] rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-none flex flex-col items-center bg-white/10 group justify-between">
+    <div className="w-full min-h-screen flex items-center justify-center p-2 sm:p-3 md:p-5 bg-[#f0f0f0] select-none font-helvetica">
+      <section className="relative w-full max-w-[1536px] min-h-[96vh] md:min-h-[92vh] rounded-[1.4rem] sm:rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-none flex flex-col items-center bg-white/10 group justify-between">
         
         {/* The Video Background */}
         <video
@@ -48,26 +48,26 @@ export const LoginPage: React.FC<Props> = ({
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover object-[65%] lg:object-center z-0"
+          className="absolute inset-0 w-full h-full object-cover object-[65%] lg:object-center z-0 pointer-events-none"
           src={VIDEO_URL}
         />
 
         {/* Content Layer */}
-        <div className="relative z-10 w-full h-full flex flex-col items-center justify-between flex-1 pb-24 md:pb-16">
+        <div className="relative z-10 w-full h-full flex flex-col items-center justify-between flex-1 pb-6 sm:pb-8 md:pb-16 overflow-y-auto">
           
           {/* Navbar */}
-          <nav className="flex items-center justify-between py-6 px-6 md:px-10 w-full relative z-10">
+          <nav className="flex items-center justify-between py-4 sm:py-6 px-4 sm:px-6 md:px-10 w-full relative z-10">
             {/* Left Side spacer / Brand */}
-            <div className="flex-1 flex items-center gap-3">
-              <span className="font-regular tracking-tighter text-xl text-[rgba(30,50,90,0.9)]">
+            <div className="flex-1 flex items-center gap-2 sm:gap-3">
+              <span className="font-regular tracking-tighter text-xl sm:text-2xl text-[rgba(30,50,90,0.95)]">
                 RIVR
               </span>
-              <span className="text-[11px] text-[rgba(30,50,90,0.7)] px-2.5 py-0.5 rounded-full bg-white/50 backdrop-blur-md border border-white/20 hidden sm:inline-block">
+              <span className="text-[10px] sm:text-[11px] text-[rgba(30,50,90,0.7)] px-2 sm:px-2.5 py-0.5 rounded-full bg-white/50 backdrop-blur-md border border-white/20">
                 Survey Gateway
               </span>
             </div>
 
-            {/* Center Menu */}
+            {/* Center Menu (Desktop only) */}
             <ul className="hidden md:flex items-center gap-8 text-[rgb(45,45,45)] font-normal text-sm">
               {menuItems.map(item => (
                 <li
@@ -83,16 +83,16 @@ export const LoginPage: React.FC<Props> = ({
             </ul>
 
             {/* Right Buttons: Replay Intro, Mobile Preview, and Sign In */}
-            <div className="flex-1 flex items-center justify-end gap-2.5">
+            <div className="flex-1 flex items-center justify-end gap-2 sm:gap-2.5">
               {onReplayIntro && (
                 <button
                   type="button"
                   onClick={onReplayIntro}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/50 hover:bg-white/80 text-[rgba(30,50,90,0.9)] text-xs font-normal border border-white/30 backdrop-blur-md transition-all cursor-pointer"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-white/50 hover:bg-white/80 text-[rgba(30,50,90,0.9)] text-[11px] sm:text-xs font-normal border border-white/30 backdrop-blur-md transition-all cursor-pointer"
                   title="Watch cinematic eyes intro"
                 >
                   <Eye className="w-3.5 h-3.5" />
-                  <span>Eyes Intro</span>
+                  <span className="hidden xs:inline">Eyes Intro</span>
                 </button>
               )}
 
@@ -112,10 +112,10 @@ export const LoginPage: React.FC<Props> = ({
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={onSignIn}
-                className="flex items-center bg-[rgba(30,50,90,0.8)] text-white rounded-full pl-2 pr-4 md:pr-6 py-1.5 md:py-2 gap-2 md:gap-3 hover:bg-[rgba(30,50,90,1)] transition-colors group cursor-pointer shadow-sm"
+                className="flex items-center bg-[rgba(30,50,90,0.85)] text-white rounded-full pl-2 pr-3.5 sm:pr-6 py-1.5 md:py-2 gap-1.5 sm:gap-3 hover:bg-[rgba(30,50,90,1)] transition-colors group cursor-pointer shadow-sm"
               >
                 <div className="bg-white/20 p-1 md:p-1.5 rounded-full flex items-center justify-center">
-                  <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                  <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white" />
                 </div>
                 <span className="text-xs md:text-sm font-normal">
                   {isSigningIn ? 'Connecting...' : 'Sign In'}
@@ -125,14 +125,14 @@ export const LoginPage: React.FC<Props> = ({
           </nav>
 
           {/* Hero & Login Card Container */}
-          <div className="w-full flex flex-col items-center pt-4 md:pt-8 px-6 text-center max-w-4xl my-auto">
+          <div className="w-full flex flex-col items-center pt-2 sm:pt-4 md:pt-8 px-4 sm:px-6 text-center max-w-4xl my-auto">
             <HeroBadge text="Fluid Staking &amp; Feedback" />
 
             <motion.h1
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-[80px] font-normal text-[#5E6470] mb-2 tracking-tight leading-[1.05]"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-[80px] font-normal text-[#5E6470] mb-2 tracking-tight leading-[1.08] sm:leading-[1.05]"
             >
               Fluid Asset Streams
             </motion.h1>
@@ -141,7 +141,7 @@ export const LoginPage: React.FC<Props> = ({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-sm sm:text-base md:text-lg text-[#5E6470] opacity-80 leading-relaxed max-w-xl font-normal"
+              className="text-xs sm:text-base md:text-lg text-[#5E6470] opacity-80 leading-relaxed max-w-xl font-normal px-2"
             >
               Access Smart Vaults, stake RIVR, NFTs, transform rigid holdings into liquid cash instantly.
             </motion.p>
@@ -151,16 +151,16 @@ export const LoginPage: React.FC<Props> = ({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
-              className="mt-6 md:mt-8 p-5 sm:p-7 rounded-[1.6rem] md:rounded-[2.2rem] bg-white/40 backdrop-blur-xl border border-white/30 shadow-lg shadow-[rgba(30,50,90,0.06)] max-w-md w-full flex flex-col items-center text-center"
+              className="mt-5 sm:mt-8 p-4 sm:p-7 rounded-[1.4rem] sm:rounded-[2.2rem] bg-white/50 backdrop-blur-xl border border-white/40 shadow-xl shadow-[rgba(30,50,90,0.06)] max-w-sm sm:max-w-md w-full flex flex-col items-center text-center mx-auto"
             >
-              <div className="w-11 h-11 rounded-full bg-white/60 border border-white/40 flex items-center justify-center text-[rgba(30,50,90,0.9)] mb-3 shadow-xs">
-                <Sparkles className="w-5 h-5 text-[rgba(30,50,90,0.85)]" />
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/70 border border-white/50 flex items-center justify-center text-[rgba(30,50,90,0.9)] mb-2.5 sm:mb-3 shadow-xs">
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[rgba(30,50,90,0.85)]" />
               </div>
 
-              <h3 className="text-lg sm:text-xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
+              <h3 className="text-base sm:text-xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
                 Sign In to Enter Survey
               </h3>
-              <p className="text-xs text-[rgba(30,50,90,0.7)] mt-1 mb-5 max-w-xs leading-relaxed">
+              <p className="text-xs text-[rgba(30,50,90,0.7)] mt-1 mb-4 sm:mb-5 max-w-xs leading-relaxed">
                 Connect your Google account to access the survey portal, vote on features, and track responses.
               </p>
 
@@ -170,32 +170,74 @@ export const LoginPage: React.FC<Props> = ({
                   onClick={onSignIn}
                   isLoading={isSigningIn}
                   label="Sign in with Google to Continue"
-                  className="w-full justify-center py-2.5 rounded-full font-normal shadow-sm hover:shadow-md text-xs sm:text-sm"
+                  className="w-full justify-center py-2.5 sm:py-3 rounded-full font-normal shadow-sm hover:shadow-md text-xs sm:text-sm"
                 />
               </div>
 
-              <div className="flex items-center gap-1.5 text-[11px] text-[rgba(30,50,90,0.65)] mt-3">
+              <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-[rgba(30,50,90,0.65)] mt-3">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Verified Google Single Sign-On • Zero passwords needed</span>
+                <span>Verified Google Single Sign-On • Zero passwords</span>
               </div>
             </motion.div>
 
+            {/* Mobile Responsive Action Cards (Non-overlapping, below the sign-in box) */}
+            <div className="flex md:hidden flex-col xs:flex-row items-stretch justify-center gap-2.5 w-full max-w-sm sm:max-w-md mt-4 sm:mt-5 z-20">
+              {/* Active Yielders Pill Card */}
+              <div className="flex-1 p-3 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/40 flex items-center justify-between shadow-xs">
+                <div className="flex flex-col text-left">
+                  <span className="text-lg font-normal text-[rgba(30,50,90,0.9)] tracking-tight">5.2K</span>
+                  <span className="text-[10px] font-normal text-[rgba(30,50,90,0.6)] uppercase tracking-wider">Active Yielders</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={onSignIn}
+                  className="flex items-center bg-white rounded-full pl-2 pr-3.5 py-1.5 gap-1.5 hover:bg-white/90 text-xs text-[rgba(30,50,90,0.9)] cursor-pointer shadow-xs active:scale-95 transition-transform"
+                >
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[rgba(30,50,90,0.9)]" />
+                  <span className="font-normal">Join Discord</span>
+                </button>
+              </div>
+
+              {/* Documentation Pill Card */}
+              <div
+                onClick={onSignIn}
+                className="flex-1 p-3 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/40 flex items-center justify-between cursor-pointer shadow-xs hover:bg-white/60 active:scale-95 transition-all"
+              >
+                <div className="flex flex-col text-left">
+                  <span className="text-sm font-normal text-[rgba(30,50,90,0.95)]">Documentation</span>
+                  <div className="flex items-center gap-1 text-[rgba(30,50,90,0.6)]">
+                    <span className="text-[11px] font-normal">Library &amp; Guides</span>
+                    <ChevronRight className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-[rgba(30,50,90,0.06)] flex items-center justify-center border border-[rgba(30,50,90,0.1)] shrink-0">
+                  <ArrowUpRight className="w-4 h-4 text-[rgba(30,50,90,0.8)]" />
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          {/* Bottom Left Card */}
-          <BottomLeftCard
-            countText="5.2K"
-            label="Active Yielders"
-            buttonText="Join Discord"
-            onButtonClick={onSignIn}
-          />
+          {/* Desktop Bottom Left Card (Hidden on mobile to prevent overlapping) */}
+          <div className="hidden md:block">
+            <BottomLeftCard
+              countText="5.2K"
+              label="Active Yielders"
+              buttonText="Join Discord"
+              onButtonClick={onSignIn}
+              className="absolute md:bottom-6 md:left-6 lg:bottom-10 lg:left-10 p-3 md:p-4 lg:p-5 rounded-[1.2rem] md:rounded-[1.5rem] lg:rounded-[2.2rem] bg-white/30 backdrop-blur-xl flex flex-col gap-2 lg:gap-3 min-w-[140px] md:min-w-[150px] lg:min-w-[180px] w-fit z-20"
+            />
+          </div>
 
-          {/* Bottom Right Corner Cutout */}
-          <BottomRightCorner
-            title="Documentation"
-            subtitle="Library"
-            onClick={onSignIn}
-          />
+          {/* Desktop Bottom Right Corner Cutout (Hidden on mobile to prevent overlapping) */}
+          <div className="hidden md:block">
+            <BottomRightCorner
+              title="Documentation"
+              subtitle="Library"
+              onClick={onSignIn}
+              className="absolute bottom-0 right-0 p-3 pt-5 pl-8 sm:p-4 sm:pt-6 sm:pl-10 md:p-6 md:pt-8 md:pl-14 bg-[#f0f0f0] rounded-tl-[1.5rem] sm:rounded-tl-[2rem] md:rounded-tl-[3.5rem] flex items-center gap-3 sm:gap-4 md:gap-6 z-20 cursor-pointer"
+            />
+          </div>
 
         </div>
 

@@ -6,19 +6,24 @@ interface Props {
   title?: string;
   subtitle?: string;
   onClick?: () => void;
+  className?: string;
 }
 
 export const BottomRightCorner: React.FC<Props> = ({
   title = 'Documentation',
   subtitle = 'Library',
-  onClick
+  onClick,
+  className
 }) => {
   return (
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.4 }}
-      className="absolute bottom-0 right-0 p-3 pt-5 pl-8 sm:p-4 sm:pt-6 sm:pl-10 md:p-6 md:pt-8 md:pl-14 bg-[#f0f0f0] rounded-tl-[1.5rem] sm:rounded-tl-[2rem] md:rounded-tl-[3.5rem] flex items-center gap-3 sm:gap-4 md:gap-6 z-20 cursor-pointer"
+      className={
+        className ||
+        "absolute bottom-0 right-0 p-3 pt-5 pl-8 sm:p-4 sm:pt-6 sm:pl-10 md:p-6 md:pt-8 md:pl-14 bg-[#f0f0f0] rounded-tl-[1.5rem] sm:rounded-tl-[2rem] md:rounded-tl-[3.5rem] flex items-center gap-3 sm:gap-4 md:gap-6 z-20 cursor-pointer"
+      }
       onClick={onClick}
     >
       {/* Top intersection mask */}
