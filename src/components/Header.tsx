@@ -1,7 +1,7 @@
 import React from 'react';
 import { User } from 'firebase/auth';
 import { GoogleSignInButton } from './GoogleSignInButton';
-import { Mail, Database, CheckCircle2, ClipboardList, BarChart3, Info, LogOut, ShieldCheck } from 'lucide-react';
+import { Mail, Database, CheckCircle2, ClipboardList, BarChart3, Info, LogOut, ShieldCheck, Smartphone } from 'lucide-react';
 import { TARGET_SURVEY_EMAIL } from '../services/gmail';
 
 interface Props {
@@ -12,6 +12,8 @@ interface Props {
   setActiveTab: (tab: 'survey' | 'analytics' | 'about') => void;
   responsesCount: number;
   isAdmin: boolean;
+  isMobilePreview?: boolean;
+  onToggleMobilePreview?: () => void;
 }
 
 export const Header: React.FC<Props> = ({
@@ -21,25 +23,27 @@ export const Header: React.FC<Props> = ({
   activeTab,
   setActiveTab,
   responsesCount,
-  isAdmin
+  isAdmin,
+  isMobilePreview,
+  onToggleMobilePreview
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16 sm:h-20">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-2">
           
           {/* Brand Info */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-100 ring-2 ring-indigo-50">
-              <ClipboardList className="w-6 h-6" />
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-md shadow-indigo-100 ring-2 ring-indigo-50 shrink-0">
+              <ClipboardList className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-900 text-lg sm:text-xl tracking-tight">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-bold text-slate-900 text-base sm:text-xl tracking-tight">
                   Vexlora
                 </span>
-                <span className="bg-indigo-50 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-semibold border border-indigo-200/60">
-                  Survey Hub
+                <span className="bg-indigo-50 text-indigo-700 text-[10px] sm:text-xs px-1.5 sm:px-2 py-0.5 rounded-full font-semibold border border-indigo-200/60">
+                  Survey
                 </span>
               </div>
               <p className="text-xs text-slate-500 hidden sm:block">
@@ -49,31 +53,33 @@ export const Header: React.FC<Props> = ({
           </div>
 
           {/* Navigation Tabs */}
-          <nav className="flex items-center bg-slate-100/90 p-1 rounded-xl border border-slate-200/80 text-sm">
+          <nav className="flex items-center bg-slate-100/90 p-1 rounded-xl border border-slate-200/80 text-xs sm:text-sm">
             <button
               onClick={() => setActiveTab('survey')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium transition-all ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium transition-all ${
                 activeTab === 'survey'
                   ? 'bg-white text-indigo-600 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <ClipboardList className="w-4 h-4" />
-              <span>Survey Form</span>
+              <ClipboardList className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Survey Form</span>
+              <span className="sm:hidden">Survey</span>
             </button>
 
             <button
               onClick={() => setActiveTab('analytics')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium transition-all relative ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium transition-all relative ${
                 activeTab === 'analytics'
                   ? 'bg-white text-indigo-600 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <BarChart3 className="w-4 h-4" />
-              <span>Responses</span>
+              <BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Responses</span>
+              <span className="sm:hidden">Results</span>
               {responsesCount > 0 && (
-                <span className="ml-1 bg-indigo-100 text-indigo-700 text-xs font-semibold px-1.5 py-0.2 rounded-full">
+                <span className="ml-0.5 sm:ml-1 bg-indigo-100 text-indigo-700 text-[10px] sm:text-xs font-semibold px-1.5 py-0.2 rounded-full">
                   {responsesCount}
                 </span>
               )}
@@ -81,19 +87,30 @@ export const Header: React.FC<Props> = ({
 
             <button
               onClick={() => setActiveTab('about')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium transition-all ${
+              className={`flex items-center gap-1 sm:gap-1.5 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-lg font-medium transition-all ${
                 activeTab === 'about'
                   ? 'bg-white text-indigo-600 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              <Info className="w-4 h-4" />
+              <Info className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span className="hidden sm:inline">About</span>
             </button>
           </nav>
 
           {/* Auth State & Integration Pill */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {onToggleMobilePreview && (
+              <button
+                type="button"
+                onClick={onToggleMobilePreview}
+                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors border border-slate-200 cursor-pointer"
+                title="Toggle Mobile Screen Preview"
+              >
+                <Smartphone className="w-3.5 h-3.5 text-indigo-600" />
+                <span>{isMobilePreview ? 'Exit Mobile' : 'Mobile Preview'}</span>
+              </button>
+            )}
             {user ? (
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-2 bg-slate-50 border border-slate-200/80 py-1 px-2.5 rounded-full">

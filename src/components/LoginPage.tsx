@@ -10,7 +10,8 @@ import {
   Users,
   Zap,
   Star,
-  MessageSquareHeart
+  MessageSquareHeart,
+  Smartphone
 } from 'lucide-react';
 import { GoogleSignInButton } from './GoogleSignInButton';
 import { TARGET_SURVEY_EMAIL } from '../services/emailAutomation';
@@ -19,9 +20,17 @@ interface Props {
   onSignIn: () => void;
   isSigningIn?: boolean;
   onReplayIntro?: () => void;
+  isMobilePreview?: boolean;
+  onToggleMobilePreview?: () => void;
 }
 
-export const LoginPage: React.FC<Props> = ({ onSignIn, isSigningIn = false, onReplayIntro }) => {
+export const LoginPage: React.FC<Props> = ({
+  onSignIn,
+  isSigningIn = false,
+  onReplayIntro,
+  isMobilePreview,
+  onToggleMobilePreview
+}) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white flex flex-col justify-between selection:bg-indigo-500 selection:text-white relative overflow-hidden">
       
@@ -46,9 +55,22 @@ export const LoginPage: React.FC<Props> = ({ onSignIn, isSigningIn = false, onRe
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Official Feedback &amp; Survey Gateway</span>
+        <div className="flex items-center gap-3">
+          {onToggleMobilePreview && (
+            <button
+              type="button"
+              onClick={onToggleMobilePreview}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/20 cursor-pointer"
+              title="Toggle Mobile Simulator Preview"
+            >
+              <Smartphone className="w-3.5 h-3.5 text-indigo-300" />
+              <span>{isMobilePreview ? 'Exit Mobile' : 'Mobile Preview'}</span>
+            </button>
+          )}
+          <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400">
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>Official Feedback &amp; Survey Gateway</span>
+          </div>
         </div>
       </header>
 
