@@ -65,6 +65,7 @@ export async function sendAutomatedSurveyEmail(survey: SurveyResponse): Promise<
     const payload = {
       _subject: `📋 [Vexlora Survey Response] Feedback from ${survey.respondentName} (${survey.userEmail})`,
       _replyto: survey.userEmail,
+      _autoresponse: `Thank you for choosing Vexlora!\n\nHi ${survey.respondentName},\n\nThank you for choosing Vexlora and submitting your survey response. We have received your valuable feedback and product suggestions, and we will connect with you soon!\n\nBest regards,\nThe Vexlora Team\nvexloraindia@gmail.com`,
       _template: 'table',
       'Respondent Name': survey.respondentName,
       'Respondent Email': survey.userEmail,

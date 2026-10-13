@@ -89,10 +89,15 @@ export const SubmissionSuccessModal: React.FC<Props> = ({
             )}
           </div>
 
-          <p className="text-[11px] text-indigo-700 bg-indigo-50/70 p-2.5 rounded-lg border border-indigo-100 flex items-start gap-1.5 leading-relaxed">
-            <span className="font-bold shrink-0">Direct Reply-To:</span>
-            <span>When the team hits &ldquo;Reply&rdquo; in their Gmail inbox, it routes directly to your email address.</span>
-          </p>
+          <div className="text-[11px] text-emerald-800 bg-emerald-50/80 p-2.5 rounded-lg border border-emerald-200/60 space-y-1">
+            <p className="flex items-center gap-1.5 font-semibold">
+              <CheckCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span>&ldquo;Thank you for choosing Vexlora! We will connect with you soon&rdquo;</span>
+            </p>
+            <p className="text-emerald-700 leading-relaxed text-[10.5px]">
+              An automated confirmation has been sent to your email. When our team replies, it will route directly to your inbox.
+            </p>
+          </div>
 
           {emailError && (
             <p className="text-[11px] text-amber-700 bg-amber-50 p-2 rounded border border-amber-200/60">

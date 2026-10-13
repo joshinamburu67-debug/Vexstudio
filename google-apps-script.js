@@ -27,13 +27,33 @@ function doPost(e) {
     var subject = data.subject || ("New Vexlora Survey Submission from " + data.respondentName);
     var htmlBody = data.htmlBody;
 
-    // Send email directly via Gmail MailApp with Reply-To set to the respondent
+    // 1. Send full submission notification to Vexlora team
     MailApp.sendEmail({
       to: recipient,
       replyTo: replyTo,
       subject: subject,
       htmlBody: htmlBody
     });
+
+    // 2. Automatically send 'Thank you for choosing Vexlora' confirmation back to the respondent
+    if (replyTo && replyTo.indexOf('@') > -1) {
+      MailApp.sendEmail({
+        to: replyTo,
+        subject: "Thank you for choosing Vexlora! We will connect with you soon",
+        htmlBody: '<div style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, sans-serif; max-width: 580px; margin: 0 auto; padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;">' +
+          '<h2 style="color: #4f46e5; margin-top: 0;">Thank you for choosing Vexlora!</h2>' +
+          '<p style="color: #334155; font-size: 15px; line-height: 1.6;">Hi <strong>' + (data.respondentName || 'there') + '</strong>,</p>' +
+          '<p style="color: #334155; font-size: 15px; line-height: 1.6;">Thank you for submitting your survey feedback and product suggestions. We have successfully received your response, and our team will connect with you soon regarding updates and early beta access!</p>' +
+          '<div style="margin: 24px 0; padding: 16px; background: #f8fafc; border-left: 4px solid #6366f1; border-radius: 6px; font-size: 14px; color: #475569;">' +
+          '<strong>Your Recorded Feedback:</strong><br>' +
+          '<em>&ldquo;' + (data.data?.biggestFrustration || data.subject || 'Recorded feedback') + '&rdquo;</em>' +
+          '</div>' +
+          '<p style="color: #64748b; font-size: 13px; line-height: 1.5;">If you have any urgent questions or ideas in the meantime, feel free to reply directly to this email.</p>' +
+          '<br>' +
+          '<p style="color: #0f172a; font-size: 14px; margin-bottom: 0;">Warm regards,<br><strong>The Vexlora Team</strong><br><a href="mailto:vexloraindia@gmail.com" style="color: #4f46e5; text-decoration: none;">vexloraindia@gmail.com</a></p>' +
+          '</div>'
+      });
+    }
 
     return ContentService.createTextOutput(JSON.stringify({
       success: true,

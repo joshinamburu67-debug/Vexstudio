@@ -568,7 +568,7 @@ Generated at: ${new Date().toLocaleString()}
 
                   <div className="flex items-center gap-2">
                     <a
-                      href={`mailto:${item.userEmail}?subject=${encodeURIComponent(`Thank you for your Vexlora feedback, ${item.respondentName}`)}&body=${encodeURIComponent(`Hi ${item.respondentName},\n\nThank you for taking the time to share your feedback with Vexlora!\n\nWe noted your thoughts regarding:\n"${item.biggestFrustration}"\n\nWe are actively working on this and would love to stay in touch!\n\nBest regards,\nThe Vexlora Team\nvexloraindia@gmail.com`)}`}
+                      href={`mailto:${item.userEmail}?subject=${encodeURIComponent(`Thank you for choosing Vexlora! We will connect with you soon`)}&body=${encodeURIComponent(`Hi ${item.respondentName},\n\nThank you for choosing Vexlora!\n\nWe have received your survey feedback and product suggestions. Our team is actively reviewing your thoughts regarding:\n"${item.biggestFrustration}"\n\nWe will connect with you soon regarding our upcoming release and early beta updates.\n\nWarm regards,\nThe Vexlora Team\nvexloraindia@gmail.com`)}`}
                       className="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-1 cursor-pointer"
                       title={`Send email directly to ${item.userEmail}`}
                     >
@@ -744,7 +744,7 @@ Generated at: ${new Date().toLocaleString()}
             {/* Modal Footer */}
             <div className="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-3">
               <a
-                href={`mailto:${selectedItem.userEmail}?subject=${encodeURIComponent(`Regarding your Vexlora feedback, ${selectedItem.respondentName}`)}&body=${encodeURIComponent(`Hi ${selectedItem.respondentName},\n\nThank you for taking the time to share your feedback with Vexlora!\n\nWe are actively reviewing your thoughts on:\n"${selectedItem.biggestFrustration}"\n\n${selectedItem.wantsBetaAccess ? 'Since you opted in for early beta access, we will keep you directly posted as soon as preview builds are ready.\n\n' : ''}Best regards,\nThe Vexlora Team\nvexloraindia@gmail.com`)}`}
+                href={`mailto:${selectedItem.userEmail}?subject=${encodeURIComponent(`Thank you for choosing Vexlora! We will connect with you soon`)}&body=${encodeURIComponent(`Hi ${selectedItem.respondentName},\n\nThank you for choosing Vexlora!\n\nWe have received your survey response and valuable feedback. Our team is actively reviewing your thoughts on:\n"${selectedItem.biggestFrustration}"\n\n${selectedItem.wantsBetaAccess ? 'Since you opted in for early beta access, we will connect with you directly as soon as our preview release is ready!\n\n' : 'We will connect with you soon regarding updates.\n\n'}Best regards,\nThe Vexlora Team\nvexloraindia@gmail.com`)}`}
                 className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer"
               >
                 <Mail className="w-3.5 h-3.5" />
