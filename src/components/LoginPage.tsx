@@ -127,7 +127,7 @@ export const LoginPage: React.FC<Props> = ({
 
           {/* Hero & Login Card Container */}
           <div className="w-full flex flex-col items-center pt-2 sm:pt-4 md:pt-8 px-4 sm:px-6 text-center max-w-4xl my-auto">
-            <HeroBadge text="Feedback &amp; Problem Discovery" />
+            <HeroBadge text="Tell Us Your Problem • Let Us Solve It" />
 
             <motion.h1
               initial={{ opacity: 0, scale: 0.98 }}
@@ -144,7 +144,7 @@ export const LoginPage: React.FC<Props> = ({
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-xs sm:text-base md:text-lg text-[#5E6470] opacity-80 leading-relaxed max-w-xl font-normal px-2"
             >
-              Share your daily software frustrations, bottlenecks, and feature wishlists to help us build tools that solve real problems.
+              Tell us your problem, let us solve it. Save your time and get big outputs with real solutions.
             </motion.p>
 
             {/* Sleek Glassmorphism Sign-In Box */}
@@ -186,8 +186,8 @@ export const LoginPage: React.FC<Props> = ({
               {/* Problem Statements Card */}
               <div className="flex-1 p-3 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/40 flex items-center justify-between shadow-xs">
                 <div className="flex flex-col text-left">
-                  <span className="text-base font-normal text-[rgba(30,50,90,0.95)] tracking-tight">User Problems</span>
-                  <span className="text-[10px] font-normal text-[rgba(30,50,90,0.6)] uppercase tracking-wider">Voice Your Needs</span>
+                  <span className="text-base font-normal text-[rgba(30,50,90,0.95)] tracking-tight">Tell Your Problem</span>
+                  <span className="text-[10px] font-normal text-[rgba(30,50,90,0.6)] uppercase tracking-wider">Let Us Solve It</span>
                 </div>
                 <button
                   type="button"
@@ -195,19 +195,19 @@ export const LoginPage: React.FC<Props> = ({
                   className="flex items-center bg-white rounded-full pl-2 pr-3.5 py-1.5 gap-1.5 hover:bg-white/90 text-xs text-[rgba(30,50,90,0.9)] cursor-pointer shadow-xs active:scale-95 transition-transform"
                 >
                   <ArrowUpRight className="w-3.5 h-3.5 text-[rgba(30,50,90,0.9)]" />
-                  <span className="font-normal">Share Issue</span>
+                  <span className="font-normal">Solve It</span>
                 </button>
               </div>
 
-              {/* Survey Features Card */}
+              {/* Big Outputs Card */}
               <div
                 onClick={onSignIn}
                 className="flex-1 p-3 rounded-2xl bg-white/45 backdrop-blur-xl border border-white/40 flex items-center justify-between cursor-pointer shadow-xs hover:bg-white/60 active:scale-95 transition-all"
               >
                 <div className="flex flex-col text-left">
-                  <span className="text-sm font-normal text-[rgba(30,50,90,0.95)]">Survey Features</span>
+                  <span className="text-sm font-normal text-[rgba(30,50,90,0.95)]">Big Outputs</span>
                   <div className="flex items-center gap-1 text-[rgba(30,50,90,0.6)]">
-                    <span className="text-[11px] font-normal">Direct Founder Review</span>
+                    <span className="text-[11px] font-normal">Save Your Time</span>
                     <ChevronRight className="w-3 h-3" />
                   </div>
                 </div>
@@ -222,9 +222,9 @@ export const LoginPage: React.FC<Props> = ({
           {/* Desktop Bottom Left Card (Hidden on mobile to prevent overlapping) */}
           <div className="hidden md:block">
             <BottomLeftCard
-              countText="User Pain Points"
-              label="Problem Discovery & Needs"
-              buttonText="Share Problem"
+              countText="Big Outputs"
+              label="Save Time • Tell Us Your Problem"
+              buttonText="Solve It"
               onButtonClick={onSignIn}
               className="absolute md:bottom-6 md:left-6 lg:bottom-10 lg:left-10 p-3 md:p-4 lg:p-5 rounded-[1.2rem] md:rounded-[1.5rem] lg:rounded-[2.2rem] bg-white/30 backdrop-blur-xl flex flex-col gap-2 lg:gap-3 min-w-[150px] md:min-w-[160px] lg:min-w-[200px] w-fit z-20"
             />
@@ -233,8 +233,8 @@ export const LoginPage: React.FC<Props> = ({
           {/* Desktop Bottom Right Corner Cutout (Hidden on mobile to prevent overlapping) */}
           <div className="hidden md:block">
             <BottomRightCorner
-              title="Survey Features"
-              subtitle="Problem Statements"
+              title="Real Solutions"
+              subtitle="Tell Problem • Save Time"
               onClick={onSignIn}
               className="absolute bottom-0 right-0 p-3 pt-5 pl-8 sm:p-4 sm:pt-6 sm:pl-10 md:p-6 md:pt-8 md:pl-14 bg-[#f0f0f0] rounded-tl-[1.5rem] sm:rounded-tl-[2rem] md:rounded-tl-[3.5rem] flex items-center gap-3 sm:gap-4 md:gap-6 z-20 cursor-pointer"
             />

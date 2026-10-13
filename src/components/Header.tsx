@@ -61,7 +61,7 @@ export const Header: React.FC<Props> = ({
                   </span>
                 </div>
                 <p className="text-[11px] text-[rgba(30,50,90,0.6)] hidden sm:block font-normal">
-                  Problem Statements &amp; Feature Feedback
+                  Tell us your problem, let us solve it • Save time &amp; get big outputs
                 </p>
               </div>
             </div>

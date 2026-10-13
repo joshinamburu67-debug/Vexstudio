@@ -33,7 +33,7 @@ export const Hero: React.FC<Props> = ({ onActionClick, children }) => {
 
           {/* Text Container */}
           <div className="w-full flex flex-col items-center pt-8 px-6 text-center max-w-4xl my-auto">
-            <HeroBadge text="Feedback &amp; Problem Discovery" />
+            <HeroBadge text="Tell Us Your Problem • Let Us Solve It" />
             <motion.h1
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -48,21 +48,21 @@ export const Hero: React.FC<Props> = ({ onActionClick, children }) => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-sm sm:text-base md:text-lg text-[#5E6470] opacity-80 leading-relaxed max-w-xl font-normal"
             >
-              Share your daily software frustrations, bottlenecks, and feature wishlists to help us build tools that solve real problems.
+              Tell us your problem, let us solve it. Save your time and get big outputs with real solutions.
             </motion.p>
 
             {children}
           </div>
 
           <BottomLeftCard
-            countText="User Pain Points"
-            label="Problem Discovery &amp; Needs"
-            buttonText="Share Problem"
+            countText="Big Outputs"
+            label="Save Time • Tell Us Your Problem"
+            buttonText="Solve It"
             onButtonClick={onActionClick}
           />
           <BottomRightCorner
-            title="Survey Features"
-            subtitle="Problem Statements"
+            title="Real Solutions"
+            subtitle="Tell Problem • Save Time"
             onClick={onActionClick}
           />
         </div>

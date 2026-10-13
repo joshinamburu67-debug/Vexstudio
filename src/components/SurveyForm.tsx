@@ -149,7 +149,7 @@ export const SurveyForm: React.FC<Props> = ({
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-normal bg-white/70 text-[rgba(30,50,90,0.9)] mb-2 border border-white/40">
               <Sparkles className="w-3.5 h-3.5 text-[rgba(30,50,90,0.85)]" />
-              <span>Vexlora Feedback Streams</span>
+              <span>Tell Us Your Problem • Let Us Solve It</span>
             </div>
             <h1 className="text-xl sm:text-3xl font-normal text-[rgba(30,50,90,0.95)] tracking-tight">
               App &amp; Website Improvement Survey
@@ -168,7 +168,7 @@ export const SurveyForm: React.FC<Props> = ({
         </div>
 
         <p className="text-xs sm:text-sm text-[#5E6470] opacity-80 mt-3 sm:mt-4 leading-relaxed font-normal">
-          We are designing new digital products and want to build what people actually need. Tell us about the difficulties, bottlenecks, and bugs you encounter in everyday apps or websites, and your ideas for solutions that would truly make your life easier.
+          Tell us your problem, let us solve it. Save your time and get big outputs with real solutions. Tell us about the difficulties, bottlenecks, and bugs you encounter in everyday apps or websites, and your ideas for solutions that would truly make your life easier.
         </p>
 
         <div className="mt-3.5 sm:mt-4 pt-3.5 sm:pt-4 border-t border-white/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
