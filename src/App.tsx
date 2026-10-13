@@ -12,6 +12,7 @@ import { SurveyForm } from './components/SurveyForm';
 import { ResponsesDashboard } from './components/ResponsesDashboard';
 import { AboutSection } from './components/AboutModal';
 import { SubmissionSuccessModal } from './components/SubmissionSuccessModal';
+import { LoginPage } from './components/LoginPage';
 import { SurveyFormData, SurveyResponse } from './types/survey';
 import {
   saveSurveyResponse,
@@ -22,7 +23,7 @@ import {
   sendAutomatedSurveyEmail,
   TARGET_SURVEY_EMAIL
 } from './services/emailAutomation';
-import { CheckCircle2, AlertTriangle, X } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, X, ClipboardList } from 'lucide-react';
 
 const ADMIN_EMAILS = [
   'joshi.namburu4339@gmail.com',
@@ -34,6 +35,7 @@ export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const [activeTab, setActiveTab] = useState<'survey' | 'analytics' | 'about'>('survey');
   const [responses, setResponses] = useState<SurveyResponse[]>([]);
   
@@ -98,6 +100,7 @@ export default function App() {
   // Sign In action
   const handleSignIn = async () => {
     try {
+      setIsSigningIn(true);
       const result = await googleSignIn();
       if (result) {
         setUser(result.user);
@@ -117,6 +120,8 @@ export default function App() {
         type: 'error',
         text: errorText
       });
+    } finally {
+      setIsSigningIn(false);
     }
   };
 
@@ -242,6 +247,54 @@ export default function App() {
       });
     }
   };
+
+  // 1. Initial Auth Loading Splash
+  if (isAuthLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-4">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 via-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-xl shadow-indigo-500/20 animate-pulse">
+          <ClipboardList className="w-8 h-8" />
+        </div>
+        <div className="mt-5 flex items-center gap-2.5 text-slate-300 text-xs font-semibold">
+          <div className="w-4 h-4 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
+          <span>Entering Vexlora Studio...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // 2. Unauthenticated User: Show dedicated LoginPage first before entering survey
+  if (!user) {
+    return (
+      <>
+        {toastMessage && (
+          <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-200">
+            <div
+              className={`flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold ${
+                toastMessage.type === 'success'
+                  ? 'bg-emerald-800 text-emerald-50 border border-emerald-700'
+                  : 'bg-red-800 text-red-50 border border-red-700'
+              }`}
+            >
+              {toastMessage.type === 'success' ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+              ) : (
+                <AlertTriangle className="w-4 h-4 text-red-300" />
+              )}
+              <span>{toastMessage.text}</span>
+              <button
+                onClick={() => setToastMessage(null)}
+                className="ml-2 hover:opacity-80 p-0.5 cursor-pointer"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+        )}
+        <LoginPage onSignIn={handleSignIn} isSigningIn={isSigningIn} />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-100/70 font-sans text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
