@@ -14,7 +14,6 @@ import { AboutSection } from './components/AboutModal';
 import { SubmissionSuccessModal } from './components/SubmissionSuccessModal';
 import { LoginPage } from './components/LoginPage';
 import { EyesIntro } from './components/EyesIntro';
-import { MobileDevicePreview } from './components/MobileDevicePreview';
 import { SurveyFormData, SurveyResponse } from './types/survey';
 import {
   saveSurveyResponse,
@@ -35,7 +34,6 @@ const ADMIN_EMAILS = [
 
 export default function App() {
   const [showIntro, setShowIntro] = useState(true);
-  const [isMobilePreview, setIsMobilePreview] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
@@ -296,18 +294,11 @@ export default function App() {
             </div>
           </div>
         )}
-        <MobileDevicePreview
-          isActive={isMobilePreview}
-          onToggle={() => setIsMobilePreview(prev => !prev)}
-        >
-          <LoginPage
-            onSignIn={handleSignIn}
-            isSigningIn={isSigningIn}
-            onReplayIntro={() => setShowIntro(true)}
-            isMobilePreview={isMobilePreview}
-            onToggleMobilePreview={() => setIsMobilePreview(prev => !prev)}
-          />
-        </MobileDevicePreview>
+        <LoginPage
+          onSignIn={handleSignIn}
+          isSigningIn={isSigningIn}
+          onReplayIntro={() => setShowIntro(true)}
+        />
       </>
     );
   }
@@ -315,89 +306,82 @@ export default function App() {
   return (
     <>
       {showIntro && <EyesIntro onComplete={() => setShowIntro(false)} />}
-      <MobileDevicePreview
-        isActive={isMobilePreview}
-        onToggle={() => setIsMobilePreview(prev => !prev)}
-      >
-        <div className="min-h-screen bg-[#f0f0f0] font-helvetica text-slate-800 antialiased selection:bg-[rgba(30,50,90,0.85)] selection:text-white">
-          
-          {/* Toast Notification */}
-          {toastMessage && (
-            <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-200">
-              <div
-                className={`flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold ${
-                  toastMessage.type === 'success'
-                    ? 'bg-emerald-800 text-emerald-50 border border-emerald-700'
-                    : 'bg-red-800 text-red-50 border border-red-700'
-                }`}
+      <div className="min-h-screen bg-[#f0f0f0] font-helvetica text-slate-800 antialiased selection:bg-[rgba(30,50,90,0.85)] selection:text-white">
+        
+        {/* Toast Notification */}
+        {toastMessage && (
+          <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 duration-200">
+            <div
+              className={`flex items-center gap-2.5 px-4 py-3 rounded-xl shadow-xl text-xs font-semibold ${
+                toastMessage.type === 'success'
+                  ? 'bg-emerald-800 text-emerald-50 border border-emerald-700'
+                  : 'bg-red-800 text-red-50 border border-red-700'
+              }`}
+            >
+              {toastMessage.type === 'success' ? (
+                <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+              ) : (
+                <AlertTriangle className="w-4 h-4 text-red-300" />
+              )}
+              <span>{toastMessage.text}</span>
+              <button
+                onClick={() => setToastMessage(null)}
+                className="ml-2 hover:opacity-80 p-0.5"
               >
-                {toastMessage.type === 'success' ? (
-                  <CheckCircle2 className="w-4 h-4 text-emerald-300" />
-                ) : (
-                  <AlertTriangle className="w-4 h-4 text-red-300" />
-                )}
-                <span>{toastMessage.text}</span>
-                <button
-                  onClick={() => setToastMessage(null)}
-                  className="ml-2 hover:opacity-80 p-0.5"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </div>
+                <X className="w-3.5 h-3.5" />
+              </button>
             </div>
+          </div>
+        )}
+
+        {/* Main Header */}
+        <Header
+          user={user}
+          onSignIn={handleSignIn}
+          onSignOut={handleSignOut}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          responsesCount={responses.length}
+          isAdmin={isAdmin}
+        />
+
+        {/* Main Content Area */}
+        <main className="max-w-6xl mx-auto px-3 sm:px-6 pt-5 sm:pt-8">
+          {activeTab === 'survey' && (
+            <SurveyForm
+              user={user}
+              onSignIn={handleSignIn}
+              onSubmitSurvey={handleStartSubmit}
+              isSubmitting={isSendingEmail}
+            />
           )}
 
-          {/* Main Header */}
-          <Header
-            user={user}
-            onSignIn={handleSignIn}
-            onSignOut={handleSignOut}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            responsesCount={responses.length}
-            isAdmin={isAdmin}
-            isMobilePreview={isMobilePreview}
-            onToggleMobilePreview={() => setIsMobilePreview(prev => !prev)}
-          />
+          {activeTab === 'analytics' && (
+            <ResponsesDashboard
+              responses={responses}
+              isAdmin={isAdmin}
+              currentUserEmail={user?.email || undefined}
+              onResendEmail={handleResendEmail}
+            />
+          )}
 
-          {/* Main Content Area */}
-          <main className="max-w-6xl mx-auto px-3 sm:px-6 pt-5 sm:pt-8">
-            {activeTab === 'survey' && (
-              <SurveyForm
-                user={user}
-                onSignIn={handleSignIn}
-                onSubmitSurvey={handleStartSubmit}
-                isSubmitting={isSendingEmail}
-              />
-            )}
+          {activeTab === 'about' && (
+            <AboutSection onStartSurvey={() => setActiveTab('survey')} />
+          )}
+        </main>
 
-            {activeTab === 'analytics' && (
-              <ResponsesDashboard
-                responses={responses}
-                isAdmin={isAdmin}
-                currentUserEmail={user?.email || undefined}
-                onResendEmail={handleResendEmail}
-              />
-            )}
+        {/* Submission Success Modal with Confetti */}
+        <SubmissionSuccessModal
+          isOpen={isSuccessModalOpen}
+          onClose={() => setIsSuccessModalOpen(false)}
+          onViewDashboard={() => setActiveTab('analytics')}
+          onResetForm={() => setActiveTab('survey')}
+          emailStatus={lastEmailStatus}
+          emailError={lastEmailError}
+          respondentName={lastSubmissionName}
+        />
 
-            {activeTab === 'about' && (
-              <AboutSection onStartSurvey={() => setActiveTab('survey')} />
-            )}
-          </main>
-
-          {/* Submission Success Modal with Confetti */}
-          <SubmissionSuccessModal
-            isOpen={isSuccessModalOpen}
-            onClose={() => setIsSuccessModalOpen(false)}
-            onViewDashboard={() => setActiveTab('analytics')}
-            onResetForm={() => setActiveTab('survey')}
-            emailStatus={lastEmailStatus}
-            emailError={lastEmailError}
-            respondentName={lastSubmissionName}
-          />
-
-        </div>
-      </MobileDevicePreview>
+      </div>
     </>
   );
 }

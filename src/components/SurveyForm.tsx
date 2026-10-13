@@ -10,7 +10,6 @@ import {
 import {
   CheckCircle2,
   Sparkles,
-  Zap,
   HelpCircle,
   Smartphone,
   Layout,
@@ -39,11 +38,11 @@ export const SurveyForm: React.FC<Props> = ({
     respondentName: user?.displayName || '',
     respondentRole: 'Software Developer / Engineer',
     primaryDevice: 'Windows PC / Laptop',
-    painPoints: ['Slow loading speeds & laggy UI', 'Overly complex, confusing interface'],
+    painPoints: [],
     biggestFrustration: '',
-    painLevel: 4,
+    painLevel: 3,
     desiredSolution: '',
-    mustHaveFeatures: ['Lightning-fast performance & instant load', 'Minimalist, distraction-free clean design'],
+    mustHaveFeatures: [],
     killerFeature: '',
     wantsBetaAccess: true,
     additionalNotes: ''
@@ -80,36 +79,6 @@ export const SurveyForm: React.FC<Props> = ({
           : [...prev.mustHaveFeatures, feature]
       };
     });
-  };
-
-  const fillSampleData = () => {
-    setFormData({
-      respondentName: user?.displayName || 'Aarav Sharma',
-      respondentRole: 'Software Developer / Engineer',
-      primaryDevice: 'Windows PC / Laptop',
-      painPoints: [
-        'Slow loading speeds & laggy UI',
-        'Overly complex, confusing interface',
-        'Offline unavailable or lost unsaved work',
-        'Expensive subscriptions & unexpected paywalls'
-      ],
-      biggestFrustration:
-        'Most productivity tools and developer dashboards are bloated with complex menus and slow cloud sync. When an internet connection fluctuates, half of our work gets lost or stuck on infinite loading wheels.',
-      painLevel: 4,
-      desiredSolution:
-        'An ultra-minimalist, distraction-free dashboard with instant hotkeys, reliable offline local caching, and single-click automated data sharing directly to team emails.',
-      mustHaveFeatures: [
-        'Lightning-fast performance & instant load',
-        'Minimalist, distraction-free clean design',
-        'Offline mode with background autosave',
-        'Free tier with honest, transparent pricing',
-        'Native export options (PDF, CSV, JSON)'
-      ],
-      killerFeature: 'Instant offline-first sync with zero-latency full-text search',
-      wantsBetaAccess: true,
-      additionalNotes: 'Excited for the public beta launch! Please notify me at my registered Google account.'
-    });
-    setErrors({});
   };
 
   const validate = () => {
@@ -155,16 +124,6 @@ export const SurveyForm: React.FC<Props> = ({
               App &amp; Website Improvement Survey
             </h1>
           </div>
-
-          <button
-            type="button"
-            onClick={fillSampleData}
-            className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 text-xs font-normal text-[rgba(30,50,90,0.85)] bg-white/75 hover:bg-white border border-white/40 rounded-full transition-all shrink-0 cursor-pointer shadow-xs active:scale-95"
-            title="Autofill form with realistic testing responses"
-          >
-            <Zap className="w-3.5 h-3.5 text-[rgba(30,50,90,0.85)]" />
-            <span>Quick Fill Sample Data</span>
-          </button>
         </div>
 
         <p className="text-xs sm:text-sm text-[#5E6470] opacity-80 mt-3 sm:mt-4 leading-relaxed font-normal">

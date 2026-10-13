@@ -9,8 +9,7 @@ import {
   BarChart3,
   Info,
   LogOut,
-  ShieldCheck,
-  Smartphone
+  ShieldCheck
 } from 'lucide-react';
 import { TARGET_SURVEY_EMAIL } from '../services/gmail';
 
@@ -22,8 +21,6 @@ interface Props {
   setActiveTab: (tab: 'survey' | 'analytics' | 'about') => void;
   responsesCount: number;
   isAdmin: boolean;
-  isMobilePreview?: boolean;
-  onToggleMobilePreview?: () => void;
 }
 
 export const Header: React.FC<Props> = ({
@@ -33,9 +30,7 @@ export const Header: React.FC<Props> = ({
   activeTab,
   setActiveTab,
   responsesCount,
-  isAdmin,
-  isMobilePreview,
-  onToggleMobilePreview
+  isAdmin
 }) => {
   return (
     <header className="sticky top-0 z-40 bg-white/65 backdrop-blur-xl border-b border-white/40 shadow-none font-helvetica select-none">
@@ -147,19 +142,8 @@ export const Header: React.FC<Props> = ({
             </button>
           </nav>
 
-          {/* Desktop User Controls & Mobile Preview */}
+          {/* Desktop User Controls */}
           <div className="hidden md:flex items-center gap-2 sm:gap-3">
-            {onToggleMobilePreview && (
-              <button
-                type="button"
-                onClick={onToggleMobilePreview}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-normal bg-white/50 hover:bg-white/80 text-[rgba(30,50,90,0.85)] transition-colors border border-white/40 cursor-pointer shadow-xs"
-                title="Toggle Mobile Screen Preview"
-              >
-                <Smartphone className="w-3.5 h-3.5 text-[rgba(30,50,90,0.8)]" />
-                <span>{isMobilePreview ? 'Exit Mobile' : 'Mobile Preview'}</span>
-              </button>
-            )}
 
             {user ? (
               <div className="flex items-center gap-2.5">

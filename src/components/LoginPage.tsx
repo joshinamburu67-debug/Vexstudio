@@ -5,7 +5,6 @@ import {
   ArrowUpRight,
   Sparkles,
   ShieldCheck,
-  Smartphone,
   Eye
 } from 'lucide-react';
 import { GoogleSignInButton } from './GoogleSignInButton';
@@ -17,16 +16,12 @@ interface Props {
   onSignIn: () => void;
   isSigningIn?: boolean;
   onReplayIntro?: () => void;
-  isMobilePreview?: boolean;
-  onToggleMobilePreview?: () => void;
 }
 
 export const LoginPage: React.FC<Props> = ({
   onSignIn,
   isSigningIn = false,
-  onReplayIntro,
-  isMobilePreview,
-  onToggleMobilePreview
+  onReplayIntro
 }) => {
   const VIDEO_URL =
     'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260428_193507_4286c423-2fd9-4efd-92bd-91a939453fc1.mp4';
@@ -97,17 +92,7 @@ export const LoginPage: React.FC<Props> = ({
                 </button>
               )}
 
-              {onToggleMobilePreview && (
-                <button
-                  type="button"
-                  onClick={onToggleMobilePreview}
-                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/50 hover:bg-white/80 text-[rgba(30,50,90,0.9)] text-xs font-normal border border-white/30 backdrop-blur-md transition-all cursor-pointer"
-                  title="Toggle Mobile Screen Preview"
-                >
-                  <Smartphone className="w-3.5 h-3.5" />
-                  <span>{isMobilePreview ? 'Exit Mobile' : 'Mobile Preview'}</span>
-                </button>
-              )}
+
 
               <motion.button
                 whileHover={{ scale: 1.02 }}
